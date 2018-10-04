@@ -1,0 +1,12 @@
+apiVersion: v1
+name: Ummati
+description: A Helm chart for all Ummati applications
+version: 0.1.0
+home: https://ummati.com
+sources:
+  - https://github.com/Ummati-com
+  - https://github.com/Ummati-com/Helm-Charts
+maintainers:
+  - name: Muhammad Rehan Saeed
+    url: https://rehansaeed.com
+icon: https://raw.githubusercontent.com/Ummati-com/Design/master/Logo/ummati-square.svg
