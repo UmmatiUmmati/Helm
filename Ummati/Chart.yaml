@@ -2,6 +2,10 @@ apiVersion: v1
 name: Ummati
 description: A Helm chart for all Ummati applications
 version: 0.1.0
+keywords:
+  - ummati
+  - ummati.com
+  - api
 home: https://ummati.com
 sources:
   - https://github.com/Ummati-com
