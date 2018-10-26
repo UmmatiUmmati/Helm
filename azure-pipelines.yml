@@ -4,5 +4,5 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
-- bash: ./build.sh
-  displayName: 'Build'
+- bash: ./build.sh --AzureSubscriptionId='$(AzureSubscriptionId)' --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword)'
+  displayName: 'Lint, Build and Push'
