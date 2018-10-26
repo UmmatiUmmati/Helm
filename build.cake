@@ -76,7 +76,7 @@ Task("Push")
         foreach(var package in GetFiles("./**/*.tgz"))
         {
              StartProcess(
-                 IsRunningOnWindows() ? Context.Tools.Resolve("az.cmd") : "az",
+                 Context.Tools.Resolve(IsRunningOnWindows() ? "az.cmd" : "az"),
                  new ProcessSettings()
                  {
                      Arguments = new ProcessArgumentBuilder()
