@@ -1,8 +1,3 @@
-#addin "Syncromatics.Cake.Helm"
-
-using Cake.Helm.Lint;
-using Cake.Helm.Package;
-
 var target = Argument("Target", "Default");
 var version =
     HasArgument("Version") ? Argument<string>("Version") :
@@ -18,6 +13,22 @@ var artefactsDirectory =
     HasArgument("ArtefactsDirectory") ? Directory(Argument<string>("ArtefactsDirectory")) :
     EnvironmentVariable("ArtefactsDirectory") != null ? Directory(EnvironmentVariable("ArtefactsDirectory")) :
     Directory("./Artefacts");
+var azureSubscriptionId =
+    HasArgument("AzureSubscriptionId") ? Argument<string>("AzureSubscriptionId") :
+    EnvironmentVariable("AzureSubscriptionId") != null ? EnvironmentVariable("AzureSubscriptionId") :
+    null;
+var azureContainerRegistryName =
+    HasArgument("AzureContainerRegistryName") ? Argument<string>("AzureContainerRegistryName") :
+    EnvironmentVariable("AzureContainerRegistryName") != null ? EnvironmentVariable("AzureContainerRegistryName") :
+    null;
+var azureContainerRegistryUsername =
+    HasArgument("AzureContainerRegistryUsername") ? Argument<string>("AzureContainerRegistryUsername") :
+    EnvironmentVariable("AzureContainerRegistryUsername") != null ? EnvironmentVariable("AzureContainerRegistryUsername") :
+    null;
+var azureContainerRegistryPassword =
+    HasArgument("AzureContainerRegistryPassword") ? Argument<string>("AzureContainerRegistryPassword") :
+    EnvironmentVariable("AzureContainerRegistryPassword") != null ? EnvironmentVariable("AzureContainerRegistryPassword") :
+    null;
 
 Task("Clean")
     .Does(() =>
@@ -30,29 +41,57 @@ Task("Lint")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        HelmLint(
-            new HelmLintSettings()
+        StartProcess(
+            "helm",
+            new ProcessSettings()
             {
-                Strict = true
-            },
-            "Ummati");
+                Arguments = new ProcessArgumentBuilder()
+                    .Append("lint")
+                    .Append("Ummati")
+                    .Append("--strict")
+            });
     });
 
  Task("Build")
     .IsDependentOn("Lint")
     .Does(() =>
     {
-        HelmPackage(
-            new HelmPackageSettings()
+        StartProcess(
+            "helm",
+            new ProcessSettings()
             {
-                DependencyUpdate = true,
-                Destination = artefactsDirectory.ToString(),
-                Version = branch == "master" ? version : $"{version}-{branch}"
-            },
-            "Ummati");
+                Arguments = new ProcessArgumentBuilder()
+                    .Append("package")
+                    .Append("Ummati")
+                    .Append("--dependency-update")
+                    .AppendSwitch("--destination", artefactsDirectory.ToString())
+                    .AppendSwitch("--version", branch == "master" ? version : $"{version}-{branch}")
+            });
+    });
+
+Task("Push")
+    .IsDependentOn("Build")
+    .Does(() =>
+    {
+        foreach(var package in GetFiles("./**/*.tgz"))
+        {
+             StartProcess(
+                 IsRunningOnWindows() ? "powershell" : "bash",
+                 new ProcessSettings()
+                 {
+                     Arguments = new ProcessArgumentBuilder()
+                        .Append("az acr helm push")
+                        .Append("--force")
+                        .AppendSwitch("--subscription", azureSubscriptionId)
+                        .AppendSwitch("--name", azureContainerRegistryName)
+                        .AppendSwitch("--username", azureContainerRegistryUsername)
+                        .AppendSwitch("--password", azureContainerRegistryPassword)
+                        .AppendQuoted(package.ToString())
+                 });
+        }
     });
 
 Task("Default")
-    .IsDependentOn("Build");
+    .IsDependentOn("Push");
 
 RunTarget(target);
