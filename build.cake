@@ -76,11 +76,11 @@ Task("Push")
         foreach(var package in GetFiles("./**/*.tgz"))
         {
              StartProcess(
-                 IsRunningOnWindows() ? "powershell" : "bash",
+                 IsRunningOnWindows() ? Context.Tools.Resolve("az.cmd") : "az",
                  new ProcessSettings()
                  {
                      Arguments = new ProcessArgumentBuilder()
-                        .Append("az acr helm push")
+                        .Append("acr helm push")
                         .Append("--force")
                         .AppendSwitch("--subscription", azureSubscriptionId)
                         .AppendSwitch("--name", azureContainerRegistryName)
