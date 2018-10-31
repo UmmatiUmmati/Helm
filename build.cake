@@ -60,6 +60,7 @@ Task("Lint")
     .IsDependentOn("Lint")
     .Does(() =>
     {
+
         var exitCode = StartProcess(
             "helm",
             new ProcessSettings()
@@ -68,7 +69,7 @@ Task("Lint")
                     .Append("package")
                     .Append("Ummati")
                     .Append("--dependency-update")
-                    .AppendSwitch("--destination", artefactsDirectory.ToString())
+                    .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory.ToString()))
                     .AppendSwitch("--version", branch == "master" ? version : $"{version}-{branch}")
             });
         if (exitCode != 0)
