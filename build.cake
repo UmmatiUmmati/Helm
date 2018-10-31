@@ -69,7 +69,7 @@ Task("Lint")
                     .Append("package")
                     .Append("Ummati")
                     .Append("--dependency-update")
-                    .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory.ToString()))
+                    .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
                     .AppendSwitch("--version", branch == "master" ? version : $"{version}-{branch}")
             });
         if (exitCode != 0)
