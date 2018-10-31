@@ -41,7 +41,7 @@ Task("Lint")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        StartProcess(
+        var exitCode = StartProcess(
             "helm",
             new ProcessSettings()
             {
@@ -50,13 +50,17 @@ Task("Lint")
                     .Append("Ummati")
                     .Append("--strict")
             });
+        if (exitCode != 0)
+        {
+            throw new Exception("helm lint failed");
+        }
     });
 
  Task("Build")
     .IsDependentOn("Lint")
     .Does(() =>
     {
-        StartProcess(
+        var exitCode = StartProcess(
             "helm",
             new ProcessSettings()
             {
@@ -67,6 +71,10 @@ Task("Lint")
                     .AppendSwitch("--destination", artefactsDirectory.ToString())
                     .AppendSwitch("--version", branch == "master" ? version : $"{version}-{branch}")
             });
+        if (exitCode != 0)
+        {
+            throw new Exception("helm package failed");
+        }
     });
 
 Task("Push")
@@ -75,7 +83,7 @@ Task("Push")
     {
         foreach(var package in GetFiles("./**/*.tgz"))
         {
-             StartProcess(
+             var exitCode = StartProcess(
                  Context.Tools.Resolve(IsRunningOnWindows() ? "az.cmd" : "az"),
                  new ProcessSettings()
                  {
@@ -88,6 +96,10 @@ Task("Push")
                         .AppendSwitch("--password", azureContainerRegistryPassword)
                         .AppendQuoted(package.ToString())
                  });
+            if (exitCode != 0)
+            {
+                throw new Exception("acr helm push failed");
+            }
         }
     });
 
