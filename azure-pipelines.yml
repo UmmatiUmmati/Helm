@@ -4,9 +4,14 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
-- bash: ./build.sh -Target Lint
+- bash: ./build.sh --Target Lint
   displayName: 'helm lint'
-- bash: ./build.sh -Target Package
+- bash: ./build.sh --Target Package
   displayName: 'helm package'
-- bash: ./build.sh -Target Push --AzureSubscriptionId='$(AzureSubscriptionId)' --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
+- task: AzureCLI@1
   displayName: 'az acr helm push'
+  inputs:
+    azureSubscription: 'Azure'
+    scriptLocation: scriptPath
+    scriptPath: ./build.sh
+    arguments: --Target Push --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
