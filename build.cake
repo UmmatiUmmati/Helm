@@ -55,32 +55,8 @@ Task("Lint")
         }
     });
 
-
-
-Task("Init")
-    .WithCriteria(() => TFBuild.IsRunningOnVSTS)
-    .Does(() =>
-    {
-        var exitCode = StartProcess(
-            "helm",
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
-                    .Append("package")
-                    .Append("Ummati")
-                    .Append("--dependency-update")
-                    .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
-                    .AppendSwitch("--version", branch == "master" ? version : $"{version}-{branch}")
-            });
-        if (exitCode != 0)
-        {
-            throw new Exception("helm package failed");
-        }
-    });
-
 Task("Package")
     .IsDependentOn("Clean")
-    .IsDependentOn("Init")
     .Does(() =>
     {
         var exitCode = StartProcess(
@@ -90,7 +66,7 @@ Task("Package")
                 Arguments = new ProcessArgumentBuilder()
                     .Append("package")
                     .Append("Ummati")
-                    .Append("--dependency-update")
+                    // .Append("--dependency-update")
                     .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
                     .AppendSwitch("--version", branch == "master" ? version : $"{version}-{branch}")
             });
