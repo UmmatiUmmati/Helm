@@ -94,6 +94,13 @@ Task("Push")
     .Does(() =>
     {
         StartProcess(
+            "helm",
+            new ProcessSettings()
+            {
+                Arguments = new ProcessArgumentBuilder()
+                    .Append("version")
+            });
+        StartProcess(
             Context.Tools.Resolve(IsRunningOnWindows() ? "az.cmd" : "az"),
             new ProcessSettings()
             {
