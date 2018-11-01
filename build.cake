@@ -34,6 +34,7 @@ Task("Clean")
     .Does(() =>
     {
         CleanDirectory(artefactsDirectory);
+        CreateDirectory(artefactsDirectory);
         Information($"Cleaned {artefactsDirectory}");
     });
 
