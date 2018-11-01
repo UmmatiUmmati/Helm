@@ -56,8 +56,26 @@ Task("Lint")
         }
     });
 
+Task("Init")
+    .Does(() =>
+    {
+        var exitCode = StartProcess(
+            "helm",
+            new ProcessSettings()
+            {
+                Arguments = new ProcessArgumentBuilder()
+                    .Append("init")
+                    .Append("--client-only")
+            });
+        if (exitCode != 0 && !TFBuild.IsRunningOnVSTS)
+        {
+            throw new Exception("helm init failed");
+        }
+    });
+
 Task("Package")
     .IsDependentOn("Clean")
+    .IsDependentOn("Init")
     .Does(() =>
     {
         var exitCode = StartProcess(
@@ -66,7 +84,6 @@ Task("Package")
             {
                 Arguments = new ProcessArgumentBuilder()
                     .Append("package")
-                    .Append("Ummati")
                     .Append("--dependency-update")
                     .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
                     .AppendSwitch("--version", branch == "master" ? version : $"{version}-{branch}")
@@ -89,7 +106,6 @@ Task("Push")
                      Arguments = new ProcessArgumentBuilder()
                         .Append("acr helm push")
                         .Append("--force")
-                        // .AppendSwitch("--subscription", azureSubscriptionId)
                         .AppendSwitch("--name", azureContainerRegistryName)
                         .AppendSwitch("--username", azureContainerRegistryUsername)
                         .AppendSwitch("--password", azureContainerRegistryPassword)
