@@ -108,7 +108,6 @@ Task("Push")
                  {
                      Arguments = new ProcessArgumentBuilder()
                         .Append("acr helm push")
-                        .Append("--force")
                         .AppendSwitch("--name", azureContainerRegistryName)
                         .AppendSwitch("--username", azureContainerRegistryUsername)
                         .AppendSwitch("--password", azureContainerRegistryPassword)
