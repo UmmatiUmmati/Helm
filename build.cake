@@ -38,7 +38,6 @@ Task("Clean")
     });
 
 Task("Lint")
-    .IsDependentOn("Clean")
     .Does(() =>
     {
         var exitCode = StartProcess(
@@ -56,8 +55,8 @@ Task("Lint")
         }
     });
 
- Task("Build")
-    .IsDependentOn("Lint")
+ Task("Package")
+    .IsDependentOn("Clean")
     .Does(() =>
     {
 
@@ -79,7 +78,6 @@ Task("Lint")
     });
 
 Task("Push")
-    .IsDependentOn("Build")
     .Does(() =>
     {
         foreach(var package in GetFiles("./**/*.tgz"))

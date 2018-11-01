@@ -4,5 +4,9 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
-- bash: ./build.sh --AzureSubscriptionId='$(AzureSubscriptionId)' --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword)'
-  displayName: 'Lint, Build and Push'
+- bash: ./build.sh -Target Lint
+  displayName: 'helm lint'
+- bash: ./build.sh -Target Package
+  displayName: 'helm package'
+- bash: ./build.sh -Target Push --AzureSubscriptionId='$(AzureSubscriptionId)' --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
+  displayName: 'az acr helm push'
