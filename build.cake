@@ -93,6 +93,7 @@ Task("Package")
 Task("Push")
     .Does(() =>
     {
+        // az acr helm push does not work without doing helm version
         StartProcess(
             "helm",
             new ProcessSettings()
@@ -100,6 +101,7 @@ Task("Push")
                 Arguments = new ProcessArgumentBuilder()
                     .Append("version")
             });
+
         foreach(var package in GetFiles("./**/*.tgz"))
         {
              var exitCode = StartProcess(
