@@ -66,11 +66,11 @@ Task("Package")
                 Arguments = new ProcessArgumentBuilder()
                     .Append("package")
                     .Append("Ummati")
-                    // .Append("--dependency-update")
+                    .Append("--dependency-update")
                     .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
                     .AppendSwitch("--version", branch == "master" ? version : $"{version}-{branch}")
             });
-        if (exitCode != 0)
+        if (exitCode != 0 && !TFBuild.IsRunningOnVSTS)
         {
             throw new Exception("helm package failed");
         }
