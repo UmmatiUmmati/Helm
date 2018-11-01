@@ -6,7 +6,7 @@ pool:
 steps:
 - bash: ./build.sh --target Lint
   displayName: 'helm lint'
-- bash: ./build.sh --target Package --verbosity Diagnostic
+- bash: ./build.sh --target Package
   displayName: 'helm package'
 - task: AzureCLI@1
   displayName: 'az acr helm push'
@@ -14,4 +14,4 @@ steps:
     azureSubscription: 'Azure'
     scriptLocation: scriptPath
     scriptPath: ./build.sh
-    arguments: --target Push --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
+    arguments: --target Push --verbosity Diagnostic --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'

@@ -4,11 +4,6 @@ var version =
     TFBuild.IsRunningOnVSTS ? TFBuild.Environment.Build.Number :
     EnvironmentVariable("Version") != null ? EnvironmentVariable("Version") :
     "1.0.0";
-var branch =
-    HasArgument("Branch") ? Argument<string>("Branch") :
-    TFBuild.IsRunningOnVSTS ? TFBuild.Environment.Repository.Branch :
-    EnvironmentVariable("Branch") != null ? EnvironmentVariable("Branch") :
-    "master";
 var artefactsDirectory =
     HasArgument("ArtefactsDirectory") ? Directory(Argument<string>("ArtefactsDirectory")) :
     EnvironmentVariable("ArtefactsDirectory") != null ? Directory(EnvironmentVariable("ArtefactsDirectory")) :
@@ -87,7 +82,7 @@ Task("Package")
                     .Append("Ummati")
                     .Append("--dependency-update")
                     .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
-                    .AppendSwitch("--version", branch == "master" ? version : $"{version}-{branch}")
+                    .AppendSwitch("--version", version)
             });
         if (exitCode != 0)
         {
