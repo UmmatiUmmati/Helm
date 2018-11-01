@@ -100,13 +100,6 @@ Task("Push")
                 Arguments = new ProcessArgumentBuilder()
                     .Append("version")
             });
-        StartProcess(
-            Context.Tools.Resolve(IsRunningOnWindows() ? "az.cmd" : "az"),
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
-                    .Append("--version")
-            });
         foreach(var package in GetFiles("./**/*.tgz"))
         {
              var exitCode = StartProcess(
