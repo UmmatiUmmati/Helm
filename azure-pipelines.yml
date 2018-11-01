@@ -6,7 +6,7 @@ pool:
 steps:
 - bash: ./build.sh --target Lint
   displayName: 'helm lint'
-- bash: ./build.sh --target Package
+- bash: ./build.sh --target Package --verbosity Diagnostic
   displayName: 'helm package'
 - task: AzureCLI@1
   displayName: 'az acr helm push'
