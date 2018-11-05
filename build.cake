@@ -25,6 +25,8 @@ var azureContainerRegistryPassword =
     EnvironmentVariable("AzureContainerRegistryPassword") != null ? EnvironmentVariable("AzureContainerRegistryPassword") :
     null;
 
+var chartVersion = version.Replace("-master", string.Empty);
+
 Task("Clean")
     .Does(() =>
     {
@@ -68,9 +70,21 @@ Task("Init")
         }
     });
 
+Task("Version")
+    .Does(() =>
+    {
+        var chartYamlFilePath = GetFiles("./**/Chart.yaml").First().ToString();
+        var chartYaml = System.IO.File.ReadAllText(chartYamlFilePath);
+        chartYaml.Replace("1.0.0", chartVersion);
+        System.IO.File.WriteAllText(chartYamlFilePath, chartYaml);
+
+        Information($"Version set to {chartVersion} in Chart.yaml");
+    });
+
 Task("Package")
     .IsDependentOn("Clean")
     .IsDependentOn("Init")
+    .IsDependentOn("Version")
     .Does(() =>
     {
         var exitCode = StartProcess(
@@ -82,7 +96,7 @@ Task("Package")
                     .Append("Ummati")
                     .Append("--dependency-update")
                     .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
-                    .AppendSwitch("--version", version)
+                    .AppendSwitch("--version", chartVersion)
             });
         if (exitCode != 0)
         {
@@ -124,6 +138,6 @@ Task("Push")
     });
 
 Task("Default")
-    .IsDependentOn("Push");
+    .IsDependentOn("Package");
 
 RunTarget(target);
