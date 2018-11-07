@@ -44,7 +44,7 @@ Task("Lint")
             {
                 Arguments = new ProcessArgumentBuilder()
                     .Append("lint")
-                    .Append("Ummati")
+                    .Append("ummati")
                     .Append("--strict")
             });
         if (exitCode != 0)
@@ -93,7 +93,7 @@ Task("Package")
             {
                 Arguments = new ProcessArgumentBuilder()
                     .Append("package")
-                    .Append("Ummati")
+                    .Append("ummati")
                     .Append("--dependency-update")
                     .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
                     .AppendSwitch("--version", chartVersion)
