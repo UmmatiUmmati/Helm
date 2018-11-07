@@ -107,15 +107,6 @@ Task("Package")
 Task("Push")
     .Does(() =>
     {
-        // az acr helm push does not work without doing helm version
-        StartProcess(
-            "helm",
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
-                    .Append("version")
-            });
-
         foreach(var package in GetFiles("./**/*.tgz"))
         {
              var exitCode = StartProcess(
@@ -124,7 +115,6 @@ Task("Push")
                  {
                      Arguments = new ProcessArgumentBuilder()
                         .Append("acr helm push")
-                        .Append("--force")
                         .AppendSwitch("--name", azureContainerRegistryName)
                         .AppendSwitch("--username", azureContainerRegistryUsername)
                         .AppendSwitch("--password", azureContainerRegistryPassword)
