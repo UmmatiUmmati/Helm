@@ -42,7 +42,7 @@ Task("Lint")
             {
                 Arguments = new ProcessArgumentBuilder()
                     .Append("lint")
-                    .Append("Ummati")
+                    .Append("ummati")
                     .Append("--strict")
             });
         if (exitCode != 0)
@@ -91,7 +91,7 @@ Task("Package")
             {
                 Arguments = new ProcessArgumentBuilder()
                     .Append("package")
-                    .Append("Ummati")
+                    .Append("ummati")
                     .Append("--dependency-update")
                     .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
                     .AppendSwitch("--version", version)
@@ -105,15 +105,6 @@ Task("Package")
 Task("Push")
     .Does(() =>
     {
-        // az acr helm push does not work without doing helm version
-        StartProcess(
-            "helm",
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
-                    .Append("version")
-            });
-
         foreach(var package in GetFiles("./**/*.tgz"))
         {
              var exitCode = StartProcess(
@@ -122,7 +113,6 @@ Task("Push")
                  {
                      Arguments = new ProcessArgumentBuilder()
                         .Append("acr helm push")
-                        .Append("--force")
                         .AppendSwitch("--name", azureContainerRegistryName)
                         .AppendSwitch("--username", azureContainerRegistryUsername)
                         .AppendSwitch("--password", azureContainerRegistryPassword)
