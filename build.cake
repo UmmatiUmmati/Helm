@@ -47,7 +47,7 @@ Task("Lint")
             });
         if (exitCode != 0)
         {
-            throw new Exception("helm lint failed");
+            throw new Exception($"helm lint failed with exit code {exitCode}.");
         }
     });
 
@@ -64,7 +64,7 @@ Task("Init")
             });
         if (exitCode != 0 && !TFBuild.IsRunningOnVSTS)
         {
-            throw new Exception("helm init failed");
+            throw new Exception($"helm init failed with exit code {exitCode}.");
         }
     });
 
@@ -98,7 +98,7 @@ Task("Package")
             });
         if (exitCode != 0)
         {
-            throw new Exception("helm package failed");
+            throw new Exception($"helm package failed with exit code {exitCode}.");
         }
     });
 
@@ -120,7 +120,7 @@ Task("Push")
                  });
             if (exitCode != 0)
             {
-                throw new Exception("acr helm push failed");
+                throw new Exception($"acr helm push failed with exit code {exitCode}.");
             }
         }
     });
