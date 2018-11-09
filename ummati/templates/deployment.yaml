@@ -1,22 +1,22 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ include "Ummati.fullname" . }}
+  name: {{ include "ummati.fullname" . }}
   labels:
-    app: {{ include "Ummati.name" . }}
-    chart: {{ include "Ummati.chart" . }}
+    app: {{ include "ummati.name" . }}
+    chart: {{ include "ummati.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "Ummati.name" . }}
+      app: {{ include "ummati.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ include "Ummati.name" . }}
+        app: {{ include "ummati.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:

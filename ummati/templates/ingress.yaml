@@ -1,13 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "Ummati.fullname" . -}}
+{{- $fullName := include "ummati.fullname" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    app: {{ include "Ummati.name" . }}
-    chart: {{ include "Ummati.chart" . }}
+    app: {{ include "ummati.name" . }}
+    chart: {{ include "ummati.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- with .Values.ingress.annotations }}
