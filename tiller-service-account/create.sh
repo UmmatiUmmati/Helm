@@ -11,14 +11,14 @@ kubectl create serviceaccount "tiller-$namespace" --namespace $namespace
 echo
 
 echo 'Creating Role'
-sed 's/$namespace/foo/g' <role.yaml >role-output.yaml
+sed "s/\$namespace/$namespace/g" <role.yaml >role-output.yaml
 cat role-output.yaml
 echo
 kubectl apply --filename role-output.yaml
 echo
 
 echo 'Creating Role Binding'
-sed 's/$namespace/foo/g' <role-binding.yaml >role-binding-output.yaml
+sed "s/\$namespace/$namespace/g" <role-binding.yaml >role-binding-output.yaml
 cat role-binding-output.yaml
 echo
 kubectl apply --filename role-binding-output.yaml
