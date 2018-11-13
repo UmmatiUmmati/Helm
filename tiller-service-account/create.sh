@@ -1,24 +1,20 @@
 # .\create.sh "ummati-production"
 
-namespace="$1"
+export Namespace="$1"
 
-echo "Creating Namespace $namespace"
-kubectl create namespace $namespace
+echo "Creating Namespace $Namespace"
+kubectl create namespace $Namespace
 echo
 
-echo "Creating Service Account tiller-$namespace"
-kubectl create serviceaccount "tiller-$namespace" --namespace $namespace
+echo "Creating Service Account tiller-$Namespace"
+kubectl create serviceaccount "tiller-$Namespace" --namespace $Namespace
 echo
 
 echo 'Creating Role'
-sed "s/\$namespace/$namespace/g" <role.yaml >role-output.yaml
-cat role-output.yaml
-echo
-kubectl apply --filename role-output.yaml
+envsubst < role.yaml
+envsubst < role.yaml | kubectl apply --filename -
 echo
 
 echo 'Creating Role Binding'
-sed "s/\$namespace/$namespace/g" <role-binding.yaml >role-binding-output.yaml
-cat role-binding-output.yaml
-echo
-kubectl apply --filename role-binding-output.yaml
+envsubst < role-binding.yaml
+envsubst < role-binding.yaml | kubectl apply --filename -
