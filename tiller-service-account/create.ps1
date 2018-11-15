@@ -13,9 +13,9 @@ Write-Output "Creating Service Account tiller-$Namespace";
 kubectl create serviceaccount "tiller-$Namespace" --namespace $Namespace
 Write-Output '';
 
-Write-Output "Creating Role tiller-manager-$Namespace"
-kubectl create role "tiller-manager-$Namespace" --namespace $Namespace --verb=* --resource=*.,*.apps,*.batch,*.extensions
+Write-Output "Creating Role tiller-role-$Namespace"
+kubectl create role "tiller-role-$Namespace" --namespace $Namespace --verb=* --resource=*.,*.apps,*.batch,*.extensions
 Write-Output '';
 
-Write-Output "Creating Role Binding tiller-binding-$Namespace"
-kubectl create rolebinding "tiller-binding-$Namespace" --namespace $Namespace --role="tiller-manager-$Namespace" --serviceaccount="$Namespace`:tiller-$Namespace"
+Write-Output "Creating Role Binding tiller-rolebinding-$Namespace"
+kubectl create rolebinding "tiller-rolebinding-$Namespace" --namespace $Namespace --role="tiller-role-$Namespace" --serviceaccount="$Namespace`:tiller-$Namespace"
