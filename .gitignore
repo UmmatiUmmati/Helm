@@ -334,5 +334,3 @@ ASALocalRun/
 
 # Cake Build
 tools/
-
-tiller-service-account/*-output.yaml
