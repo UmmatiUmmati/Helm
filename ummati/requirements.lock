@@ -1,0 +1,9 @@
+dependencies:
+- name: redis
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 4.2.10
+- name: traefik
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 1.52.6
+digest: sha256:d3489e52be1645c11f3cef67618ad0cbab7f15d3f2a586bb6c184f17806d58a4
+generated: 2018-11-19T16:42:04.68916Z

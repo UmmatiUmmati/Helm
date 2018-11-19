@@ -1,0 +1,7 @@
+dependencies:
+  - name: redis
+    version: 4.2.10
+    repository: https://kubernetes-charts.storage.googleapis.com
+  - name: traefik
+    version: 1.52.6
+    repository: https://kubernetes-charts.storage.googleapis.com
