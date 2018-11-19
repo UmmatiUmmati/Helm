@@ -46,3 +46,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+redis-ha:
+  replicas: 2
+  auth: false
+  # redisPassword: '' TODO
+  persistentVolume:
+    enabled: false

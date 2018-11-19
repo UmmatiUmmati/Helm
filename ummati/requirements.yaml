@@ -1,7 +1,7 @@
 dependencies:
   # https://github.com/helm/charts/tree/master/stable/redis
-  - name: redis
-    version: 4.2.10
+  - name: redis-ha
+    version: 3.0.1
     repository: https://kubernetes-charts.storage.googleapis.com
   # https://github.com/helm/charts/tree/master/stable/traefik
   - name: traefik
