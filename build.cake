@@ -102,6 +102,27 @@ Task("Package")
         }
     });
 
+Task("Template")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Init")
+    .Does(() =>
+    {
+        // helm template --output-dir ./***-final ./***
+        var exitCode = StartProcess(
+            "helm",
+            new ProcessSettings()
+            {
+                Arguments = new ProcessArgumentBuilder()
+                    .Append("template")
+                    .AppendSwitch("--output-dir", MakeAbsolute(artefactsDirectory).ToString())
+                    .Append("./ummati")
+            });
+        if (exitCode != 0)
+        {
+            throw new Exception($"helm template failed with exit code {exitCode}.");
+        }
+    });
+
 Task("Push")
     .Does(() =>
     {
