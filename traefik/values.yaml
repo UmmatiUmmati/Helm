@@ -1,0 +1,20 @@
+acme:
+  enabled: true
+  challengeType: "dns-01"
+  dnsProvider:
+    name:  cloudflare
+    cloudflare:
+      CLOUDFLARE_EMAIL: ""
+      CLOUDFLARE_API_KEY: ""
+  domains:
+    enabled: true
+    domainsList:
+      - main: "*.ummati.com"
+dashboard:
+  enabled: true
+  domain: traefik.ummati.com
+  auth:
+    basic:
+      test: $apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/
+rbac:
+  enabled: true

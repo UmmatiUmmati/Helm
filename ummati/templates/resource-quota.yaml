@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ include "ummati.fullname" . }}
+spec:
+  hard:
+    cpu: {{ .Values.resourceQuota.cpu }}
+    memory: {{ .Values.resourceQuota.memory }}
+    pods: {{ .Values.resourceQuota.pods }}

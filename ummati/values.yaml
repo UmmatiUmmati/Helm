@@ -1,6 +1,8 @@
-# Default values for Ummati.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+resourceQuota:
+  cpu: "10"
+  memory: 20Gi
+  pods: "10"
+
 
 replicaCount: 1
 
