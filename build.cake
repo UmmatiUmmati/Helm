@@ -8,6 +8,14 @@ var artefactsDirectory =
     HasArgument("ArtefactsDirectory") ? Directory(Argument<string>("ArtefactsDirectory")) :
     EnvironmentVariable("ArtefactsDirectory") != null ? Directory(EnvironmentVariable("ArtefactsDirectory")) :
     Directory("./Artefacts");
+var helmReleaseName =
+    HasArgument("HelmReleaseName") ? Argument<string>("HelmReleaseName") :
+    EnvironmentVariable("HelmReleaseName") != null ? EnvironmentVariable("HelmReleaseName") :
+    "RELEASE-NAME";
+var helmNamespace =
+    HasArgument("HelmNamespace") ? Argument<string>("HelmNamespace") :
+    EnvironmentVariable("HelmNamespace") != null ? EnvironmentVariable("HelmNamespace") :
+    "NAMESPACE";
 var azureSubscriptionId =
     HasArgument("AzureSubscriptionId") ? Argument<string>("AzureSubscriptionId") :
     EnvironmentVariable("AzureSubscriptionId") != null ? EnvironmentVariable("AzureSubscriptionId") :
@@ -114,6 +122,8 @@ Task("Template")
             {
                 Arguments = new ProcessArgumentBuilder()
                     .Append("template")
+                    .AppendSwitch("--name", helmReleaseName)
+                    .AppendSwitch("--namespace", helmNamespace)
                     .AppendSwitch("--output-dir", MakeAbsolute(artefactsDirectory).ToString())
                     .Append("./ummati")
             });
