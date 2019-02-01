@@ -1,7 +1,12 @@
 resourceQuota:
-  cpu: "10"
+  cpu: 10
   memory: 20Gi
-  pods: "10"
+  pods: 10
+
+
+ummati:
+  podDisruptionBudget:
+    maxUnavailable: 1 # Can be a %
 
 
 replicaCount: 1
@@ -11,7 +16,6 @@ image:
   tag: stable
   pullPolicy: IfNotPresent
 
-nameOverride: ""
 fullnameOverride: ""
 
 service:

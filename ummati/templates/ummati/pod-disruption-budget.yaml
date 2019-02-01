@@ -1,0 +1,18 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "ummati.fullname" . }}-pod-disruption-budget
+  labels:
+    {{- include "ummati.defaultLabels" . | nindent 4 }}
+spec:
+  {{- with .Values.ummati.podDisruptionBudget }}
+  {{- if .maxUnavailable }}
+  maxUnavailable: {{ .maxUnavailable }}
+  {{- end }}
+  {{- if .minAvailable }}
+  minAvailable: {{ .minAvailable }}
+  {{- end }}
+  {{- end }}
+  selector:
+  matchLabels:
+    app: nginx-frontend

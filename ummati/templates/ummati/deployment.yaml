@@ -3,20 +3,17 @@ kind: Deployment
 metadata:
   name: {{ include "ummati.fullname" . }}
   labels:
-    app: {{ include "ummati.name" . }}
-    chart: {{ include "ummati.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "ummati.defaultLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "ummati.name" . }}
+      app: {{ .Chart.Name }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ include "ummati.name" . }}
+        app: {{ .Chart.Name }}
         release: {{ .Release.Name }}
     spec:
       containers:

@@ -3,10 +3,7 @@ kind: Service
 metadata:
   name: {{ include "ummati.fullname" . }}
   labels:
-    app: {{ include "ummati.name" . }}
-    chart: {{ include "ummati.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "ummati.defaultLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -15,5 +12,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ include "ummati.name" . }}
+    app: {{ .Chart.Name }}
     release: {{ .Release.Name }}

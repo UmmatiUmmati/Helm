@@ -1,9 +1,11 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: {{ include "ummati.fullname" . }}
+  name: {{ include "ummati.fullname" . }}-resource-quota
+  labels:
+    {{- include "ummati.defaultLabels" . | nindent 4 }}
 spec:
   hard:
     cpu: {{ .Values.resourceQuota.cpu }}
-    memory: {{ .Values.resourceQuota.memory }}
+    memory: {{ .Values.resourceQuota.memory | quote }}
     pods: {{ .Values.resourceQuota.pods }}

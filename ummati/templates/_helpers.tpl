@@ -1,10 +1,4 @@
 {{/* vim: set filetype=mustache: */}}
-{{/*
-Expand the name of the chart.
-*/}}
-{{- define "ummati.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 
 {{/*
 Create a default fully qualified app name.
@@ -12,15 +6,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "ummati.fullname" -}}
-{{- if .Values.fullnameOverride -}}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- $name := .Chart.Name -}}
 {{- if contains $name .Release.Name -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 {{- end -}}
 {{- end -}}
 
@@ -29,4 +19,19 @@ Create chart name and version as used by the chart label.
 */}}
 {{- define "ummati.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Create default labels to be added to every resource.
+*/}}
+{{- define "ummati.defaultLabels" -}}
+chart: {{ include "ummati.chart" . }}
+chartName: {{ .Chart.Name | quote }}
+chartVersion: {{ .Chart.Version | quote }}
+releaseName: {{ .Release.Name | quote }}
+releaseService: {{ .Release.Service | quote }}
+releaseTime: {{ date "2006-01-02 15:04:05 -0700" .Release.Time }}
+releaseRevision: {{ .Release.Revision }}
+releaseIsUpgrade: {{ .Release.IsUpgrade }}
+releaseIsInstall: {{ .Release.IsInstall }}
 {{- end -}}
