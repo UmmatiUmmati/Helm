@@ -76,6 +76,24 @@ Task("Init")
         }
     });
 
+Task("Update")
+    .Does(() =>
+    {
+        var exitCode = StartProcess(
+            "helm",
+            new ProcessSettings()
+            {
+                Arguments = new ProcessArgumentBuilder()
+                    .Append("dependency")
+                    .Append("update")
+                    .Append("ummati")
+            });
+        if (exitCode != 0 && !TFBuild.IsRunningOnVSTS)
+        {
+            throw new Exception($"helm dependency update failed with exit code {exitCode}.");
+        }
+    });
+
 Task("Version")
     .Does(() =>
     {
@@ -90,6 +108,7 @@ Task("Version")
 Task("Package")
     .IsDependentOn("Clean")
     .IsDependentOn("Init")
+    .IsDependentOn("Update")
     .IsDependentOn("Version")
     .Does(() =>
     {
@@ -100,7 +119,6 @@ Task("Package")
                 Arguments = new ProcessArgumentBuilder()
                     .Append("package")
                     .Append("ummati")
-                    .Append("--dependency-update")
                     .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
                     .AppendSwitch("--version", version)
             });
@@ -113,6 +131,8 @@ Task("Package")
 Task("Template")
     .IsDependentOn("Clean")
     .IsDependentOn("Init")
+    .IsDependentOn("Update")
+    .IsDependentOn("Lint")
     .Does(() =>
     {
         // helm template --output-dir ./***-final ./***

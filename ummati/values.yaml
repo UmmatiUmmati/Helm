@@ -4,8 +4,12 @@ resourceQuota:
   pods: 10
 
 
+fullnameOverride: ""
+
+
 ummati:
   podDisruptionBudget:
+    minAvailable: null
     maxUnavailable: 1 # Can be a %
 
 
@@ -15,8 +19,6 @@ image:
   repository: nginx
   tag: stable
   pullPolicy: IfNotPresent
-
-fullnameOverride: ""
 
 service:
   type: LoadBalancer
@@ -53,9 +55,10 @@ tolerations: []
 
 affinity: {}
 
-redis-ha:
-  replicas: 2
-  auth: false
-  # redisPassword: '' TODO
-  persistentVolume:
-    enabled: false
+# redis-ha:
+#   nameOverride: "redis"
+#   replicas: 2
+#   auth: false
+#   # redisPassword: '' TODO
+#   persistentVolume:
+#     enabled: false
