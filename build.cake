@@ -41,24 +41,6 @@ Task("Clean")
         Information($"Cleaned {artefactsDirectory}");
     });
 
-Task("Lint")
-    .Does(() =>
-    {
-        var exitCode = StartProcess(
-            "helm",
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
-                    .Append("lint")
-                    .Append("ummati")
-                    .Append("--strict")
-            });
-        if (exitCode != 0)
-        {
-            throw new Exception($"helm lint failed with exit code {exitCode}.");
-        }
-    });
-
 Task("Init")
     .Does(() =>
     {
@@ -94,6 +76,24 @@ Task("Update")
         }
     });
 
+Task("Lint")
+    .Does(() =>
+    {
+        var exitCode = StartProcess(
+            "helm",
+            new ProcessSettings()
+            {
+                Arguments = new ProcessArgumentBuilder()
+                    .Append("lint")
+                    .Append("ummati")
+                    .Append("--strict")
+            });
+        if (exitCode != 0)
+        {
+            throw new Exception($"helm lint failed with exit code {exitCode}.");
+        }
+    });
+
 Task("Version")
     .Does(() =>
     {
@@ -107,8 +107,6 @@ Task("Version")
 
 Task("Package")
     .IsDependentOn("Clean")
-    .IsDependentOn("Init")
-    .IsDependentOn("Update")
     .IsDependentOn("Version")
     .Does(() =>
     {
@@ -130,7 +128,6 @@ Task("Package")
 
 Task("Template")
     .IsDependentOn("Clean")
-    .IsDependentOn("Init")
     .IsDependentOn("Update")
     .IsDependentOn("Lint")
     .Does(() =>

@@ -4,6 +4,10 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
+- bash: ./build.sh --target Init
+  displayName: 'helm init'
+- bash: ./build.sh --target Update
+  displayName: 'helm update'
 - bash: ./build.sh --target Lint
   displayName: 'helm lint'
 - bash: ./build.sh --target Package
