@@ -6,8 +6,12 @@ pool:
 steps:
 - bash: echo '##vso[task.setvariable variable=Version;isOutput=true]$(Build.BuildNumber)'
   condition: eq(variables['Build.SourceBranchName'], 'master')
-- bash: echo '##vso[task.setvariable variable=Version;isOutput=true]-$(Build.SourceBranchName)'
+  displayName: 'Version=$(Build.BuildNumber)'
+- bash: echo '##vso[task.setvariable variable=Version;isOutput=true]$(Build.BuildNumber)-$(Build.SourceBranchName)'
   condition: ne(variables['Build.SourceBranchName'], 'master')
+  displayName: 'Version=$(Build.BuildNumber)-$(Build.SourceBranchName)'
+- bash: echo $(Version)
+  displayName: 'echo version'
 
 - bash: ./build.sh --target Init
   displayName: 'helm init'
