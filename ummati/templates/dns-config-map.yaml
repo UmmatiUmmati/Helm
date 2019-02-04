@@ -1,0 +1,6 @@
+# TODO: See https://stackoverflow.com/questions/54513077/how-to-use-cloudflare-1-1-1-1-with-kubernetes-dns
+# apiVersion: v1
+# kind: ConfigMap
+# data:
+#   upstreamNameservers: |
+#     ["1.1.1.1", "1.0.0.1"]
