@@ -1,7 +1,6 @@
 var target = Argument("Target", "Default");
 var version =
     HasArgument("Version") ? Argument<string>("Version") :
-    TFBuild.IsRunningOnVSTS ? TFBuild.Environment.Build.Number :
     EnvironmentVariable("Version") != null ? EnvironmentVariable("Version") :
     "1.0.0";
 var artefactsDirectory =
