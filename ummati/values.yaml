@@ -4,6 +4,9 @@ resourceQuota:
   pods: 10
 
 
+environment: Production
+
+
 fullnameOverride: ""
 
 

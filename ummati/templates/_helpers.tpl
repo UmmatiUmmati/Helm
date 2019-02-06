@@ -25,6 +25,7 @@ Create chart name and version as used by the chart label.
 Create default labels to be added to every resource.
 */}}
 {{- define "ummati.defaultLabels" -}}
+environment: {{ .Values.environment }}
 chart: {{ include "ummati.chart" . }}
 chartName: {{ .Chart.Name | quote }}
 chartVersion: {{ .Chart.Version | quote }}
