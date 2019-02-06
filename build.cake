@@ -1,7 +1,7 @@
 var target = Argument("Target", "Default");
-var version =
-    HasArgument("Version") ? Argument<string>("Version") :
-    EnvironmentVariable("Version") != null ? EnvironmentVariable("Version") :
+var packageVersion =
+    HasArgument("PackageVersion") ? Argument<string>("PackageVersion") :
+    EnvironmentVariable("PackageVersion") != null ? EnvironmentVariable("PackageVersion") :
     "1.0.0";
 var artefactsDirectory =
     HasArgument("ArtefactsDirectory") ? Directory(Argument<string>("ArtefactsDirectory")) :
@@ -98,10 +98,10 @@ Task("Version")
     {
         var chartYamlFilePath = GetFiles("./**/Chart.yaml").First().ToString();
         var chartYaml = System.IO.File.ReadAllText(chartYamlFilePath);
-        chartYaml.Replace("1.0.0", version);
+        chartYaml.Replace("1.0.0", packageVersion);
         System.IO.File.WriteAllText(chartYamlFilePath, chartYaml);
 
-        Information($"Version set to {version} in Chart.yaml");
+        Information($"Version set to {packageVersion} in Chart.yaml");
     });
 
 Task("Package")
@@ -117,7 +117,7 @@ Task("Package")
                     .Append("package")
                     .Append("ummati")
                     .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
-                    .AppendSwitch("--version", version)
+                    .AppendSwitch("--version", packageVersion)
             });
         if (exitCode != 0)
         {
