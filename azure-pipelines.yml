@@ -16,7 +16,7 @@ steps:
   displayName: 'helm update'
 - bash: ./build.sh --target Lint
   displayName: 'helm lint'
-- bash: ./build.sh --target Package --Version=$(PackageVersion)
+- bash: ./build.sh --target Package --PackageVersion=$(PackageVersion)
   displayName: 'helm package'
 - task: AzureCLI@1
   displayName: 'az acr helm push'
