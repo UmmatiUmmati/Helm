@@ -1,10 +1,7 @@
-name: 1.0.$(BuildId)
-
-variables:
-  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
-    PackageVersion: $(Build.BuildNumber)
-  ${{ if ne(variables['Build.SourceBranchName'], 'master') }}:
-    PackageVersion: $(Build.BuildNumber)-$(Build.SourceBranchName)
+${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+  name: 1.0.$(BuildId)
+${{ if ne(variables['Build.SourceBranchName'], 'master') }}:
+  name: 1.0.$(BuildId)-$(Build.SourceBranchName)
 
 pool:
   vmImage: 'Ubuntu 16.04'
@@ -16,7 +13,7 @@ steps:
   displayName: 'helm update'
 - bash: ./build.sh --target Lint
   displayName: 'helm lint'
-- bash: ./build.sh --target Package --PackageVersion=$(PackageVersion)
+- bash: ./build.sh --target Package --PackageVersion=$(Build.BuildNumber)
   displayName: 'helm package'
 - task: AzureCLI@1
   displayName: 'az acr helm push'
