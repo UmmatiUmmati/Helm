@@ -25,3 +25,7 @@ steps:
     scriptLocation: scriptPath
     scriptPath: ./build.sh
     arguments: --target Push --verbosity Diagnostic --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'HelmChart'
+    targetPath: './Artefacts'
