@@ -49,7 +49,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: {{ .Values.home.securityContext.readOnlyRootFilesystem }}
-            runAsUser: 1000
+            runAsUser: {{ .Values.home.securityContext.runAsUser }}
       priorityClassName: {{ .Values.home.priorityClassName }}
     {{- with .Values.home.nodeSelector }}
       nodeSelector:

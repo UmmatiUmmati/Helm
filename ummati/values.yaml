@@ -33,6 +33,7 @@ home:
       memory: 128Mi
   securityContext:
     readOnlyRootFilesystem: false
+    runAsUser: null
   nodeSelector: {}
   tolerations: []
   affinity: {}
