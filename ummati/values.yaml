@@ -10,7 +10,7 @@ resourceQuota:
 environment: "Production"
 
 home:
-  replicaCount: 1
+  replicaCount: 3
   image:
     repository: nginx
     tag: stable
