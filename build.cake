@@ -152,7 +152,7 @@ Task("Template")
 Task("Push")
     .Does(() =>
     {
-        foreach(var package in GetFiles("./**/*.tgz"))
+        foreach(var package in GetFiles($"{artefactsDirectory}/**/*.tgz"))
         {
              var exitCode = StartProcess(
                  Context.Tools.Resolve(IsRunningOnWindows() ? "az.cmd" : "az"),
