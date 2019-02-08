@@ -46,6 +46,11 @@ spec:
             timeoutSeconds: 1
           resources:
 {{ toYaml .Values.home.resources | indent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            fsGroup: 2000
+            readOnlyRootFilesystem: true
+            runAsUser: 1000
       priorityClassName: {{ .Values.home.priorityClassName }}
     {{- with .Values.home.nodeSelector }}
       nodeSelector:
