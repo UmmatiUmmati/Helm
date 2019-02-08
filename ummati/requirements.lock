@@ -1,3 +1,6 @@
-dependencies: []
-digest: sha256:a4028ef6b5df0ba52501af1116d232a75056093f30ddf3b725e34fff764048c2
-generated: 2019-02-01T17:14:42.8732784Z
+dependencies:
+- name: kured
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 1.1.0
+digest: sha256:d4425355f30027c36376942f8d9edc1bdf49f35fb484632b40563df0e6efcb8d
+generated: 2019-02-08T15:13:13.1870929Z

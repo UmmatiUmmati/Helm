@@ -7,9 +7,7 @@ resourceQuota:
     loadbalancers: 5
     nodeports: 0
 
-
 environment: "Production"
-
 
 home:
   replicaCount: 1
@@ -37,6 +35,17 @@ home:
   tolerations: []
   affinity: {}
 
+kured:
+  nameOverride: ""
+  fullnameOverride: ""
+  image.pullPolicy: Always
+  resources:
+    limits:
+      cpu: 10m
+      memory: 10Mi
+    requests:
+      cpu: 10m
+      memory: 10Mi
 
 # redis-ha:
 #   nameOverride: "redis"
