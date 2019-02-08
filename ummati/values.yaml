@@ -1,31 +1,44 @@
 resourceQuota:
   cpu: 10
-  memory: 20Gi
+  memory: "20Gi"
+  persistentvolumeclaims: 0
   pods: 10
+  services:
+    loadbalancers: 5
+    nodeports: 0
 
 
-environment: Production
+environment: "Production"
 
 
 fullnameOverride: ""
 
 
 ummati:
+  replicaCount: 1
+  image:
+    repository: nginx
+    tag: stable
+  service:
+    type: LoadBalancer
+    port: 80
+  priorityClassName: "high"
+  rollingUpdate:
+    maxSurge: "25%" # Maximum number of pods to create during an update (Default=25%)
+    maxUnavailable: "25%" # Maximum number of pods to take down during a rolling update (Default=25%)
   podDisruptionBudget:
     minAvailable: null
-    maxUnavailable: 1 # Can be a %
-
-
-replicaCount: 1
-
-image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
-
-service:
-  type: LoadBalancer
-  port: 80
+    maxUnavailable: "1%"
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
 
 ingress:
   enabled: false
@@ -40,23 +53,7 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
 
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
 
 # redis-ha:
 #   nameOverride: "redis"

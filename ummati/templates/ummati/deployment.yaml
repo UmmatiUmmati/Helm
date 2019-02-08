@@ -1,25 +1,29 @@
+# Documentation: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "ummati.fullname" . }}
   labels:
+    name: {{ include "ummati.fullname" . }}
     {{- include "ummati.defaultLabels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.ummati.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
-      release: {{ .Release.Name }}
+      name: {{ include "ummati.fullname" . }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.ummati.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.ummati.rollingUpdate.maxUnavailable }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
-        release: {{ .Release.Name }}
+        name: {{ include "ummati.fullname" . }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {{ include "ummati.fullname" . }}
+          image: "{{ .Values.ummati.image.repository }}:{{ .Values.ummati.image.tag }}"
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80
@@ -28,21 +32,30 @@ spec:
             httpGet:
               path: /
               port: http
+            failureThreshold: 3
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
           readinessProbe:
             httpGet:
               path: /
               port: http
+            failureThreshold: 3
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
           resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
+{{ toYaml .Values.ummati.resources | indent 12 }}
+      priorityClassName: {{ .Values.ummati.priorityClassName }}
+    {{- with .Values.ummati.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.affinity }}
+    {{- with .Values.ummati.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.tolerations }}
+    {{- with .Values.ummati.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}

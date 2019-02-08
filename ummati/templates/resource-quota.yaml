@@ -1,3 +1,4 @@
+# Documentation: https://kubernetes.io/docs/concepts/policy/resource-quotas/
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -6,4 +7,7 @@ spec:
   hard:
     cpu: {{ .Values.resourceQuota.cpu }}
     memory: {{ .Values.resourceQuota.memory | quote }}
+    persistentvolumeclaims: {{ .Values.resourceQuota.persistentvolumeclaims }}
     pods: {{ .Values.resourceQuota.pods }}
+    services.loadbalancers: {{ .Values.resourceQuota.services.loadbalancers }}
+    services.nodeports: {{ .Values.resourceQuota.services.nodeports }}

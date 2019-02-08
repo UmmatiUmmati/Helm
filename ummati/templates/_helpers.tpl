@@ -25,14 +25,14 @@ Create chart name and version as used by the chart label.
 Create default labels to be added to every resource.
 */}}
 {{- define "ummati.defaultLabels" -}}
-environment: {{ .Values.environment }}
-chart: {{ include "ummati.chart" . }}
+environment: {{ .Values.environment | quote }}
+chart: {{ include "ummati.chart" . | quote }}
 chartName: {{ .Chart.Name | quote }}
 chartVersion: {{ .Chart.Version | quote }}
 releaseName: {{ .Release.Name | quote }}
 releaseService: {{ .Release.Service | quote }}
-releaseTime: {{ date "2006-01-02 15:04:05 -0700" .Release.Time }}
-releaseRevision: {{ .Release.Revision }}
-releaseIsUpgrade: {{ .Release.IsUpgrade }}
-releaseIsInstall: {{ .Release.IsInstall }}
+releaseTime: {{ date "2006-01-02_15-04-05" .Release.Time | quote }}
+releaseRevision: {{ .Release.Revision | quote }}
+releaseIsUpgrade: {{ .Release.IsUpgrade | quote }}
+releaseIsInstall: {{ .Release.IsInstall | quote }}
 {{- end -}}
