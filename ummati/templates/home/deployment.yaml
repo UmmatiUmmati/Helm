@@ -48,7 +48,7 @@ spec:
 {{ toYaml .Values.home.resources | indent 12 }}
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: {{ .Values.home.securityContext.readOnlyRootFilesystem }}
             runAsUser: 1000
       priorityClassName: {{ .Values.home.priorityClassName }}
     {{- with .Values.home.nodeSelector }}
