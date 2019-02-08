@@ -11,10 +11,7 @@ resourceQuota:
 environment: "Production"
 
 
-fullnameOverride: ""
-
-
-ummati:
+home:
   replicaCount: 1
   image:
     repository: nginx
@@ -39,20 +36,6 @@ ummati:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - chart-example.local
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
 
 
 # redis-ha:

@@ -2,9 +2,9 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ include "ummati.fullname" . }}-pod-disruption-budget
+  name: {{ include "ummati.fullname" . }}-home
 spec:
-  {{- with .Values.ummati.podDisruptionBudget }}
+  {{- with .Values.home.podDisruptionBudget }}
   {{- if .maxUnavailable }}
   maxUnavailable: {{ .maxUnavailable }}
   {{- end }}
@@ -14,4 +14,4 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      name: {{ include "ummati.fullname" . }}
+      application: {{ include "ummati.fullname" . }}-home

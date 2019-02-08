@@ -2,27 +2,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ummati.fullname" . }}
+  name: {{ include "ummati.fullname" . }}-home
   labels:
-    name: {{ include "ummati.fullname" . }}
+    application: {{ include "ummati.fullname" . }}-home
     {{- include "ummati.defaultLabels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.ummati.replicaCount }}
+  replicas: {{ .Values.home.replicaCount }}
   selector:
     matchLabels:
-      name: {{ include "ummati.fullname" . }}
+      application: {{ include "ummati.fullname" . }}-home
   strategy:
     rollingUpdate:
-      maxSurge: {{ .Values.ummati.rollingUpdate.maxSurge }}
-      maxUnavailable: {{ .Values.ummati.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ .Values.home.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.home.rollingUpdate.maxUnavailable }}
   template:
     metadata:
       labels:
-        name: {{ include "ummati.fullname" . }}
+        application: {{ include "ummati.fullname" . }}-home
     spec:
       containers:
-        - name: {{ include "ummati.fullname" . }}
-          image: "{{ .Values.ummati.image.repository }}:{{ .Values.ummati.image.tag }}"
+        - name: {{ include "ummati.fullname" . }}-home
+          image: "{{ .Values.home.image.repository }}:{{ .Values.home.image.tag }}"
           imagePullPolicy: Always
           ports:
             - name: http
@@ -45,17 +45,17 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 1
           resources:
-{{ toYaml .Values.ummati.resources | indent 12 }}
-      priorityClassName: {{ .Values.ummati.priorityClassName }}
-    {{- with .Values.ummati.nodeSelector }}
+{{ toYaml .Values.home.resources | indent 12 }}
+      priorityClassName: {{ .Values.home.priorityClassName }}
+    {{- with .Values.home.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.ummati.affinity }}
+    {{- with .Values.home.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- with .Values.ummati.tolerations }}
+    {{- with .Values.home.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}

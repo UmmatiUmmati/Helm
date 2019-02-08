@@ -2,15 +2,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "ummati.fullname" . }}
+  name: {{ include "ummati.fullname" . }}-home
   labels:
+    application: {{ include "ummati.fullname" . }}-home
     {{- include "ummati.defaultLabels" . | nindent 4 }}
 spec:
-  type: {{ .Values.ummati.service.type }}
+  type: {{ .Values.home.service.type }}
   ports:
-    - port: {{ .Values.ummati.service.port }}
+    - port: {{ .Values.home.service.port }}
       targetPort: http
       protocol: TCP
       name: http
   selector:
-    name: {{ include "ummati.fullname" . }}
+    application: {{ include "ummati.fullname" . }}-home
