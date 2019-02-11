@@ -1,0 +1,19 @@
+# Azure AKS Documentation: https://github.com/Azure/AKS/releases/tag/2019-02-07
+# CoreDNS Documentation: https://github.com/coredns/coredns/issues/1650
+# After applying this ConfigMap, this must be run to reload the configuration:
+# kubectl delete pod --namespace kube-system --selector k8s-app=kube-dns
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+  labels:
+    {{- include "ummati.defaultLabels" . | nindent 4 }}
+data:
+  azurestack.server: |
+    azurestack.local:53 {
+        forward . tls://1.1.1.1 tls://1.0.0.1 {
+          tls_servername cloudflare-dns.com
+          health_check 5s
+        }
+    }
