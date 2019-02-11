@@ -4,17 +4,19 @@ resourceQuota:
     cpu: 10
     memory: "20Gi"
   # Storage
-  storage: "0Gi"
-  storage.persistentvolumeclaims: 0
+  storage:
+    maximumSize: "0Gi"
+    persistentvolumeclaims: 0
   # Object Counts
   objectCounts:
     configmaps: 10
     pods: 10
     replicationcontrollers: 20 # Double the pod count to allow updates
     secrets: 10
-    services: 5
-    services.loadbalancers: 5
-    services.nodeports: 5
+    services:
+      maximumCount: 5
+      loadbalancers: 5
+      nodeports: 5
 
 environment: "Production"
 
