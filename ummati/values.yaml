@@ -1,11 +1,20 @@
 resourceQuota:
-  cpu: 10
-  memory: "20Gi"
-  persistentvolumeclaims: 0
-  pods: 10
-  services:
-    loadbalancers: 5
-    nodeports: 0
+  # Compute
+  compute:
+    cpu: 10
+    memory: "20Gi"
+  # Storage
+  storage: "0Gi"
+  storage.persistentvolumeclaims: 0
+  # Object Counts
+  objectCounts:
+    configmaps: 10
+    pods: 10
+    replicationcontrollers: 20 # Double the pod count to allow updates
+    secrets: 10
+    services: 5
+    services.loadbalancers: 5
+    services.nodeports: 5
 
 environment: "Production"
 
@@ -21,9 +30,6 @@ home:
   rollingUpdate:
     maxSurge: "25%" # Maximum number of pods to create during an update (Default=25%)
     maxUnavailable: "25%" # Maximum number of pods to take down during a rolling update (Default=25%)
-  podDisruptionBudget:
-    minAvailable: null
-    maxUnavailable: "1%"
   resources:
     limits:
       cpu: 100m
@@ -37,6 +43,9 @@ home:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  podDisruptionBudget:
+    minAvailable: null
+    maxUnavailable: "1%"
 
 kured:
   nameOverride: ""

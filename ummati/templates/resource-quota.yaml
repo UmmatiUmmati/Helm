@@ -5,9 +5,17 @@ metadata:
   name: {{ include "ummati.fullname" . }}-default
 spec:
   hard:
-    cpu: {{ .Values.resourceQuota.cpu }}
-    memory: {{ .Values.resourceQuota.memory | quote }}
-    persistentvolumeclaims: {{ .Values.resourceQuota.persistentvolumeclaims }}
-    pods: {{ .Values.resourceQuota.pods }}
+    # Compute
+    cpu: {{ .Values.resourceQuota.compute.cpu }}
+    memory: {{ .Values.resourceQuota.compute.memory | quote }}
+    # Storage
+    requests.storage: {{ .Values.resourceQuota.storage | quote }}
+    persistentvolumeclaims: {{ .Values.resourceQuota.storage.persistentvolumeclaims }}
+    # Object Counts
+    configmaps: {{ .Values.resourceQuota.objectCounts.configmaps }}
+    pods: {{ .Values.resourceQuota.objectCounts.pods }}
+    replicationcontrollers: {{ .Values.resourceQuota.objectCounts.replicationcontrollers }}
+    secrets: {{ .Values.resourceQuota.objectCounts.secrets }}
+    services: {{ .Values.resourceQuota.objectCounts.services }}
     services.loadbalancers: {{ .Values.resourceQuota.services.loadbalancers }}
     services.nodeports: {{ .Values.resourceQuota.services.nodeports }}
