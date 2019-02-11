@@ -48,6 +48,10 @@ home:
   podDisruptionBudget:
     minAvailable: null
     maxUnavailable: "1%"
+  autoscaling:
+    maxReplicas: 10
+    minReplicas: 1
+    targetCPUUtilizationPercentage: 50
 
 kured:
   nameOverride: ""
