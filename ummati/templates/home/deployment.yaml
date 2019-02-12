@@ -7,7 +7,7 @@ metadata:
     application: {{ include "ummati.fullname" . }}-home
     {{- include "ummati.defaultLabels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.home.replicaCount }}
+  replicas: {{ .Values.home.replicas.minimum }}
   selector:
     matchLabels:
       application: {{ include "ummati.fullname" . }}-home

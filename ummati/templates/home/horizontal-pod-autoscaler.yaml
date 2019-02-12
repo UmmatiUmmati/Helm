@@ -8,6 +8,6 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "ummati.fullname" . }}-home
-  maxReplicas: {{ .Values.home.autoscaling.maxReplicas }}
-  minReplicas: {{ .Values.home.autoscaling.minReplicas }}
-  targetCPUUtilizationPercentage: {{ .Values.home.autoscaling.targetCPUUtilizationPercentage }}
+  maxReplicas: {{ .Values.home.replicas.maximum }}
+  minReplicas: {{ .Values.home.replicas.minimum }}
+  targetCPUUtilizationPercentage: {{ .Values.home.replicas.targetCPUUtilizationPercentage }}

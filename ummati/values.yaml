@@ -21,17 +21,21 @@ resourceQuota:
 environment: "Production"
 
 home:
-  replicaCount: 3
   image:
     repository: nginx
     tag: stable
+  priorityClassName: "high"
+  replicas:
+    minimum: 3
+    maximum: 10
+    targetCPUUtilizationPercentage: 50
   service:
     type: LoadBalancer
-    port: 80
-  priorityClassName: "high"
   rollingUpdate:
-    maxSurge: "25%" # Maximum number of pods to create during an update (Default=25%)
-    maxUnavailable: "25%" # Maximum number of pods to take down during a rolling update (Default=25%)
+    maxSurge: "10%" # Maximum number of pods to create during an update (Default=25%)
+    maxUnavailable: "10%" # Maximum number of pods to take down during a rolling update (Default=25%)
+  podDisruptionBudget:
+    maxUnavailable: "10%" # Maximum number of pods to take down during a node update
   resources:
     limits:
       cpu: 100m
@@ -42,17 +46,12 @@ home:
   securityContext:
     readOnlyRootFilesystem: false
     runAsUser: null
-  podDisruptionBudget:
-    maxUnavailable: "1%"
-  autoscaling:
-    maxReplicas: 10
-    minReplicas: 1
-    targetCPUUtilizationPercentage: 50
 
 kured:
   nameOverride: ""
   fullnameOverride: ""
-  image.pullPolicy: Always
+  image:
+    pullPolicy: Always
   resources:
     limits:
       cpu: 10m
