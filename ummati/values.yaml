@@ -46,7 +46,6 @@ home:
   tolerations: []
   affinity: {}
   podDisruptionBudget:
-    minAvailable: null
     maxUnavailable: "1%"
   autoscaling:
     maxReplicas: 10

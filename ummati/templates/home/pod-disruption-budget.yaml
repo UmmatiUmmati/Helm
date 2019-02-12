@@ -4,13 +4,11 @@ kind: PodDisruptionBudget
 metadata:
   name: {{ include "ummati.fullname" . }}-home
 spec:
-  {{- with .Values.home.podDisruptionBudget }}
-  {{- if .maxUnavailable }}
-  maxUnavailable: {{ .maxUnavailable }}
+  {{- if hasKey .Values.home.podDisruptionBudget "maxUnavailable" }}
+  maxUnavailable: {{ .Values.home.podDisruptionBudget.maxUnavailable }}
   {{- end }}
-  {{- if .minAvailable }}
-  minAvailable: {{ .minAvailable }}
-  {{- end }}
+  {{- if hasKey .Values.home.podDisruptionBudget "minAvailable" }}
+  minAvailable: {{ .Values.home.podDisruptionBudget.minAvailable }}
   {{- end }}
   selector:
     matchLabels:
