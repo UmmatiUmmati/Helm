@@ -22,7 +22,11 @@ spec:
     spec:
       containers:
         - name: {{ include "ummati.fullname" . }}-home
+          {{- if hasKey .Values.home.image "registry" }}
+          image: "{{ .Values.home.image.registry }}/{{ .Values.home.image.repository }}:{{ .Values.home.image.tag }}"
+          {{- else }}
           image: "{{ .Values.home.image.repository }}:{{ .Values.home.image.tag }}"
+          {{- end }}
           imagePullPolicy: Always
           ports:
             - name: http
