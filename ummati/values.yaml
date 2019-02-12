@@ -36,6 +36,16 @@ home:
     maxUnavailable: "10%" # Maximum number of pods to take down during a rolling update (Default=25%)
   podDisruptionBudget:
     maxUnavailable: "10%" # Maximum number of pods to take down during a node update
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
   resources:
     limits:
       cpu: 100m

@@ -36,18 +36,18 @@ spec:
             httpGet:
               path: /
               port: http
-            failureThreshold: 3
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            timeoutSeconds: 1
+            failureThreshold: {{ .Values.home.livenessProbe.failureThreshold }}
+            initialDelaySeconds: {{ .Values.home.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.home.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.home.livenessProbe.timeoutSeconds }}
           readinessProbe:
             httpGet:
               path: /
               port: http
-            failureThreshold: 3
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            timeoutSeconds: 1
+            failureThreshold: {{ .Values.home.readinessProbe.failureThreshold }}
+            initialDelaySeconds: {{ .Values.home.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.home.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.home.readinessProbe.timeoutSeconds }}
           resources:
 {{ toYaml .Values.home.resources | indent 12 }}
           securityContext:
