@@ -55,15 +55,3 @@ spec:
             readOnlyRootFilesystem: {{ .Values.home.securityContext.readOnlyRootFilesystem }}
             runAsUser: {{ .Values.home.securityContext.runAsUser }}
       priorityClassName: {{ .Values.home.priorityClassName }}
-    {{- with .Values.home.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.home.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.home.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}

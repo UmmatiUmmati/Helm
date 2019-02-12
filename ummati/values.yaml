@@ -42,9 +42,6 @@ home:
   securityContext:
     readOnlyRootFilesystem: false
     runAsUser: null
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
   podDisruptionBudget:
     maxUnavailable: "1%"
   autoscaling:
