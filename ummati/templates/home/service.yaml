@@ -9,9 +9,13 @@ metadata:
 spec:
   type: {{ .Values.home.service.type }}
   ports:
-    - port: 80
-      targetPort: http
+    - name: http
+      port: 80
       protocol: TCP
-      name: http
+      targetPort: http
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
   selector:
     application: {{ include "ummati.fullname" . }}-home
