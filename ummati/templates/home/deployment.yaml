@@ -39,18 +39,20 @@ spec:
             httpGet:
               path: /
               port: "http"
-            failureThreshold: {{ .Values.home.livenessProbe.failureThreshold }}
             initialDelaySeconds: {{ .Values.home.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.home.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.home.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.home.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.home.livenessProbe.failureThreshold }}
           readinessProbe:
             httpGet:
               path: /
               port: "http"
-            failureThreshold: {{ .Values.home.readinessProbe.failureThreshold }}
             initialDelaySeconds: {{ .Values.home.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.home.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.home.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.home.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.home.readinessProbe.failureThreshold }}
           resources:
 {{ toYaml .Values.home.resources | indent 12 }}
           securityContext:
