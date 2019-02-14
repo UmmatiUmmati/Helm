@@ -37,6 +37,7 @@ spec:
               protocol: "TCP"
           livenessProbe:
             httpGet:
+              scheme: "HTTP"
               path: /
               port: "http"
             initialDelaySeconds: {{ .Values.home.livenessProbe.initialDelaySeconds }}
@@ -46,6 +47,7 @@ spec:
             failureThreshold: {{ .Values.home.livenessProbe.failureThreshold }}
           readinessProbe:
             httpGet:
+              scheme: "HTTP"
               path: /
               port: "http"
             initialDelaySeconds: {{ .Values.home.readinessProbe.initialDelaySeconds }}
