@@ -30,7 +30,7 @@ home:
     maximum: 10
     targetCPUUtilizationPercentage: 50
   service:
-    type: LoadBalancer
+    type: "LoadBalancer"
   rollingUpdate:
     maxSurge: "10%" # Maximum number of pods to create during an update (Default=25%)
     maxUnavailable: "10%" # Maximum number of pods to take down during a rolling update (Default=25%)
@@ -48,11 +48,11 @@ home:
     timeoutSeconds: 1
   resources:
     limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: "100m"
+      memory: "128Mi"
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: "100m"
+      memory: "128Mi"
   securityContext:
     readOnlyRootFilesystem: false
     runAsUser: null
