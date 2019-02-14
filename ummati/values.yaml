@@ -26,11 +26,11 @@ home:
     tag: stable
   priorityClassName: "high"
   replicas:
-    minimum: 3
-    maximum: 10
-    targetCPUUtilizationPercentage: 50
+    minimum: 3             # Lower limit for the number of pods that can be set by the autoscaler (Default = 1).
+    maximum: 10            # Upper limit for the number of pods that can be set by the autoscaler. cannot be smaller than minimum.
+    targetCPUUtilizationPercentage: 50 # Target average CPU utilization (represented as a percentage of requested CPU) over all the pods.
   service:
-    type: "LoadBalancer"
+    type: "LoadBalancer"   # ClusterIP, ExternalName, NodePort or LoadBalancer (Default = ClusterIP).
   rollingUpdate:
     maxSurge: "10%"        # Maximum number of pods to create during an update (Default = 25%).
     maxUnavailable: "10%"  # Maximum number of pods to take down during a rolling update (Default = 25%).
@@ -56,7 +56,8 @@ home:
       cpu: "100m"
       memory: "128Mi"
   securityContext:
-    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false # Whether a process can gain more privileges than its parent process.
+    readOnlyRootFilesystem: false   # Force containers to run with a read only root file system.
     runAsUser: null
 
 kured:

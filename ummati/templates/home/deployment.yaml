@@ -56,7 +56,7 @@ spec:
           resources:
 {{ toYaml .Values.home.resources | indent 12 }}
           securityContext:
-            allowPrivilegeEscalation: false
+            allowPrivilegeEscalation: {{ .Values.home.securityContext.allowPrivilegeEscalation }}
             readOnlyRootFilesystem: {{ .Values.home.securityContext.readOnlyRootFilesystem }}
             runAsUser: {{ .Values.home.securityContext.runAsUser }}
       priorityClassName: {{ .Values.home.priorityClassName | quote }}
