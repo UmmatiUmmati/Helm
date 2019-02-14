@@ -2,15 +2,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ummati.fullname" . }}-home
+  name: "{{ include "ummati.fullname" . }}-home"
   labels:
-    application: {{ include "ummati.fullname" . }}-home
+    application: "{{ include "ummati.fullname" . }}-home"
     {{- include "ummati.defaultLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.home.replicas.minimum }}
   selector:
     matchLabels:
-      application: {{ include "ummati.fullname" . }}-home
+      application: "{{ include "ummati.fullname" . }}-home"
   strategy:
     rollingUpdate:
       maxSurge: {{ .Values.home.rollingUpdate.maxSurge }}
@@ -18,27 +18,27 @@ spec:
   template:
     metadata:
       labels:
-        application: {{ include "ummati.fullname" . }}-home
+        application: "{{ include "ummati.fullname" . }}-home"
     spec:
       containers:
-        - name: {{ include "ummati.fullname" . }}-home
+        - name: "{{ include "ummati.fullname" . }}-home"
           {{- if hasKey .Values.home.image "registry" }}
           image: "{{ .Values.home.image.registry }}/{{ .Values.home.image.repository }}:{{ .Values.home.image.tag }}"
           {{- else }}
           image: "{{ .Values.home.image.repository }}:{{ .Values.home.image.tag }}"
           {{- end }}
-          imagePullPolicy: Always
+          imagePullPolicy: "Always"
           ports:
-            - name: http
+            - name: "http"
               containerPort: 80
-              protocol: TCP
-            - name: https
+              protocol: "TCP"
+            - name: "https"
               containerPort: 443
-              protocol: TCP
+              protocol: "TCP"
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: "http"
             failureThreshold: {{ .Values.home.livenessProbe.failureThreshold }}
             initialDelaySeconds: {{ .Values.home.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.home.livenessProbe.periodSeconds }}
@@ -46,7 +46,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: "http"
             failureThreshold: {{ .Values.home.readinessProbe.failureThreshold }}
             initialDelaySeconds: {{ .Values.home.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.home.readinessProbe.periodSeconds }}
@@ -57,4 +57,4 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: {{ .Values.home.securityContext.readOnlyRootFilesystem }}
             runAsUser: {{ .Values.home.securityContext.runAsUser }}
-      priorityClassName: {{ .Values.home.priorityClassName }}
+      priorityClassName: {{ .Values.home.priorityClassName | quote }}

@@ -2,12 +2,12 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "ummati.fullname" . }}-home
+  name: "{{ include "ummati.fullname" . }}-home"
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "ummati.fullname" . }}-home
+    name: "{{ include "ummati.fullname" . }}-home"
   maxReplicas: {{ .Values.home.replicas.maximum }}
   minReplicas: {{ .Values.home.replicas.minimum }}
   targetCPUUtilizationPercentage: {{ .Values.home.replicas.targetCPUUtilizationPercentage }}

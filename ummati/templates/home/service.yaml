@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "ummati.fullname" . }}-home
+  name: "{{ include "ummati.fullname" . }}-home"
   labels:
-    application: {{ include "ummati.fullname" . }}-home
+    application: "{{ include "ummati.fullname" . }}-home"
     {{- include "ummati.defaultLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.home.service.type | quote }}
@@ -18,4 +18,4 @@ spec:
       protocol: TCP
       targetPort: https
   selector:
-    application: {{ include "ummati.fullname" . }}-home
+    application: "{{ include "ummati.fullname" . }}-home"
