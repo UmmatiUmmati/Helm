@@ -24,30 +24,30 @@ home:
   image:
     repository: nginx
     tag: stable
-  priorityClassName: "high"
+  priorityClassName: "high" # high, medium or low.
   replicas:
-    minimum: 3             # Lower limit for the number of pods that can be set by the autoscaler (Default = 1).
-    maximum: 10            # Upper limit for the number of pods that can be set by the autoscaler. cannot be smaller than minimum.
+    minimum: 3              # Lower limit for the number of pods that can be set by the autoscaler (Default = 1).
+    maximum: 10             # Upper limit for the number of pods that can be set by the autoscaler. cannot be smaller than minimum.
     targetCPUUtilizationPercentage: 50 # Target average CPU utilization (represented as a percentage of requested CPU) over all the pods.
   service:
-    type: "LoadBalancer"   # ClusterIP, ExternalName, NodePort or LoadBalancer (Default = ClusterIP).
+    type: "LoadBalancer"    # ClusterIP, ExternalName, NodePort or LoadBalancer (Default = ClusterIP).
   rollingUpdate:
-    maxSurge: "10%"        # Maximum number of pods to create during an update (Default = 25%).
-    maxUnavailable: "10%"  # Maximum number of pods to take down during a rolling update (Default = 25%).
+    maxSurge: "10%"         # Maximum number of pods to create during an update (Default = 25%).
+    maxUnavailable: "10%"   # Maximum number of pods to take down during a rolling update (Default = 25%).
   podDisruptionBudget:
-    maxUnavailable: "0%"   # Maximum number of pods to take down during a node update
+    maxUnavailable: "0%"    # Maximum number of pods to take down during a node update
   livenessProbe:
-    initialDelaySeconds: 0 # Number of seconds after the container has started before liveness probes are initiated.
-    periodSeconds: 10      # How often to perform the probe. (Default = 10).
-    timeoutSeconds: 1      # Number of seconds after which the probe times out (Default = 1).
-    successThreshold: 1    # Minimum consecutive successes for the probe to be considered successful after having failed (Default = 1).
-    failureThreshold: 3    # When a Pod starts and the probe fails, Kubernetes will try failureThreshold times before restarting the Pod (Default = 3).
+    initialDelaySeconds: 0  # Number of seconds after the container has started before liveness probes are initiated.
+    periodSeconds: 10       # How often to perform the probe. (Default = 10).
+    timeoutSeconds: 1       # Number of seconds after which the probe times out (Default = 1).
+    successThreshold: 1     # Minimum consecutive successes for the probe to be considered successful after having failed (Default = 1).
+    failureThreshold: 3     # When a Pod starts and the probe fails, Kubernetes will try failureThreshold times before restarting the Pod (Default = 3).
   readinessProbe:
-    initialDelaySeconds: 0 # Number of seconds after the container has started before readiness probes are initiated.
-    periodSeconds: 10      # How often to perform the probe. (Default = 10).
-    timeoutSeconds: 1      # Number of seconds after which the probe times out (Default = 1).
-    successThreshold: 1    # Minimum consecutive successes for the probe to be considered successful after having failed (Default = 1).
-    failureThreshold: 3    # When a Pod starts and the probe fails, Kubernetes will try failureThreshold times before marking the Pod as Unready (Default = 3).
+    initialDelaySeconds: 0  # Number of seconds after the container has started before readiness probes are initiated.
+    periodSeconds: 10       # How often to perform the probe. (Default = 10).
+    timeoutSeconds: 1       # Number of seconds after which the probe times out (Default = 1).
+    successThreshold: 1     # Minimum consecutive successes for the probe to be considered successful after having failed (Default = 1).
+    failureThreshold: 3     # When a Pod starts and the probe fails, Kubernetes will try failureThreshold times before marking the Pod as Unready (Default = 3).
   resources:
     limits:
       cpu: "100m"
