@@ -3,6 +3,8 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   name: "{{ include "ummati.fullname" . }}-home"
+  annotations:
+    {{- include "ummati.defaultAnnotations" . | nindent 4 }}
 spec:
   {{- if hasKey .Values.home.podDisruptionBudget "maxUnavailable" }}
   maxUnavailable: {{ .Values.home.podDisruptionBudget.maxUnavailable }}

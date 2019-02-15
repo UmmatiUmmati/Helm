@@ -26,12 +26,18 @@ Create default labels to be added to every resource.
 */}}
 {{- define "ummati.defaultLabels" -}}
 environment: {{ .Values.environment | quote }}
+{{- end -}}
+
+{{/*
+Create default annotations to be added to every resource.
+*/}}
+{{- define "ummati.defaultAnnotations" -}}
 chart: {{ include "ummati.chart" . | quote }}
 chartName: {{ .Chart.Name | quote }}
 chartVersion: {{ .Chart.Version | quote }}
 releaseName: {{ .Release.Name | quote }}
 releaseService: {{ .Release.Service | quote }}
-releaseTime: {{ date "2006-01-02_15-04-05" .Release.Time | quote }}
+releaseTime: {{ date "2006-01-02 15:04:05 -0700" .Release.Time | quote }}
 releaseRevision: {{ .Release.Revision | quote }}
 releaseIsUpgrade: {{ .Release.IsUpgrade | quote }}
 releaseIsInstall: {{ .Release.IsInstall | quote }}

@@ -3,6 +3,8 @@ apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: "{{ include "ummati.fullname" . }}-default"
+  annotations:
+    {{- include "ummati.defaultAnnotations" . | nindent 4 }}
 spec:
   hard:
     # Compute

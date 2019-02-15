@@ -3,6 +3,8 @@ apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: "{{ include "ummati.fullname" . }}-home"
+  annotations:
+    {{- include "ummati.defaultAnnotations" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
