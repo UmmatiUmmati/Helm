@@ -30,7 +30,7 @@ spec:
           {{- else }}
           image: "{{ .Values.home.image.repository }}:{{ .Values.home.image.tag }}"
           {{- end }}
-          imagePullPolicy: "Always"
+          imagePullPolicy: {{ .Values.home.image.pullPolicy | quote }}
           ports:
             - name: "http"
               containerPort: 80
