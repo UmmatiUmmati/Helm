@@ -27,7 +27,7 @@ See https://kubernetes.io/docs/concepts/overview/working-with-objects/common-lab
 */}}
 {{- define "ummati.defaultLabels" -}}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
-app.kubernetes.io/version: {{ .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.Version }}
 app.kubernetes.io/part-of: {{ .Chart.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 helm.sh/chart: {{ include "ummati.chart" . | quote }}
@@ -39,7 +39,6 @@ Create default annotations to be added to every resource.
 */}}
 {{- define "ummati.defaultAnnotations" -}}
 ummati/chartName: {{ .Chart.Name | quote }}
-ummati/chartVersion: {{ .Chart.Version | quote }}
 ummati/releaseTime: {{ date "2006-01-02 15:04:05 -0700" .Release.Time | quote }}
 ummati/releaseRevision: {{ .Release.Revision | quote }}
 ummati/releaseIsUpgrade: {{ .Release.IsUpgrade | quote }}
