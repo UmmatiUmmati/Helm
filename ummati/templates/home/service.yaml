@@ -4,7 +4,8 @@ kind: Service
 metadata:
   name: "{{ include "ummati.fullname" . }}-home"
   labels:
-    application: "{{ include "ummati.fullname" . }}-home"
+    app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-home"
+    app.kubernetes.io/component: "website"
     {{- include "ummati.defaultLabels" . | nindent 4 }}
   annotations:
     {{- include "ummati.defaultAnnotations" . | nindent 4 }}
@@ -20,4 +21,4 @@ spec:
       protocol: TCP
       targetPort: https
   selector:
-    application: "{{ include "ummati.fullname" . }}-home"
+    app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-home"

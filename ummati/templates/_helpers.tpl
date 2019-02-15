@@ -23,22 +23,25 @@ Create chart name and version as used by the chart label.
 
 {{/*
 Create default labels to be added to every resource.
+See https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/
 */}}
 {{- define "ummati.defaultLabels" -}}
-environment: {{ .Values.environment | quote }}
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
+app.kubernetes.io/version: {{ .Chart.AppVersion }}
+app.kubernetes.io/part-of: {{ .Chart.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+helm.sh/chart: {{ include "ummati.chart" . | quote }}
+ummati/environment: {{ .Values.environment | quote }}
 {{- end -}}
 
 {{/*
 Create default annotations to be added to every resource.
 */}}
 {{- define "ummati.defaultAnnotations" -}}
-chart: {{ include "ummati.chart" . | quote }}
-chartName: {{ .Chart.Name | quote }}
-chartVersion: {{ .Chart.Version | quote }}
-releaseName: {{ .Release.Name | quote }}
-releaseService: {{ .Release.Service | quote }}
-releaseTime: {{ date "2006-01-02 15:04:05 -0700" .Release.Time | quote }}
-releaseRevision: {{ .Release.Revision | quote }}
-releaseIsUpgrade: {{ .Release.IsUpgrade | quote }}
-releaseIsInstall: {{ .Release.IsInstall | quote }}
+ummati/chartName: {{ .Chart.Name | quote }}
+ummati/chartVersion: {{ .Chart.Version | quote }}
+ummati/releaseTime: {{ date "2006-01-02 15:04:05 -0700" .Release.Time | quote }}
+ummati/releaseRevision: {{ .Release.Revision | quote }}
+ummati/releaseIsUpgrade: {{ .Release.IsUpgrade | quote }}
+ummati/releaseIsInstall: {{ .Release.IsInstall | quote }}
 {{- end -}}

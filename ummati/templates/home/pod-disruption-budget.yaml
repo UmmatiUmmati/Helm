@@ -3,6 +3,10 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   name: "{{ include "ummati.fullname" . }}-home"
+  labels:
+    app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-home"
+    app.kubernetes.io/component: "website"
+    {{- include "ummati.defaultLabels" . | nindent 4 }}
   annotations:
     {{- include "ummati.defaultAnnotations" . | nindent 4 }}
 spec:
@@ -14,4 +18,4 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      application: "{{ include "ummati.fullname" . }}-home"
+      app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-home"

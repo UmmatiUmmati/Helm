@@ -3,6 +3,9 @@ apiVersion: scheduling.k8s.io/v1beta1
 kind: PriorityClass
 metadata:
   name: "high"
+  labels:
+    app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-common"
+    {{- include "ummati.defaultLabels" . | nindent 4 }}
   annotations:
     {{- include "ummati.defaultAnnotations" . | nindent 4 }}
 description: "A high priority class."
