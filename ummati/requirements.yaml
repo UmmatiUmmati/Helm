@@ -1,13 +1,13 @@
 dependencies:
   # https://github.com/helm/charts/tree/master/stable/kured
   - name: kured
-    version: 1.1.0
+    version: ~1.1.0
     repository: https://kubernetes-charts.storage.googleapis.com
   # https://github.com/helm/charts/tree/master/stable/redis
   # - name: redis-ha
-  #   version: 3.0.1
+  #   version: ~3.0.1
   #   repository: https://kubernetes-charts.storage.googleapis.com
   # # https://github.com/helm/charts/tree/master/stable/traefik
   # - name: traefik
-  #   version: 1.52.6
+  #   version: ~1.52.6
   #   repository: https://kubernetes-charts.storage.googleapis.com
