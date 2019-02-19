@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/component: "website"
     {{- include "ummati.defaultLabels" . | nindent 4 }}
   annotations:
+    checksum/config: {{ include (print $.Template.BasePath "/home/config-map.yaml") . | sha256sum }}
     {{- include "ummati.defaultAnnotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.home.replicas.minimum }}
