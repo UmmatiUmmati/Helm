@@ -1,11 +1,13 @@
 apiVersion: v1
-name: "ummati"
-description: "A Helm chart for all Ummati applications."
+name: "azure-aks"
+description: "A Helm chart for setting up Azure AKS."
 version: 1.0.0
 keywords:
   - "ummati"
   - "ummati.com"
-  - "api"
+  - "azure"
+  - "aks"
+  - "dns"
 home: "https://ummati.com"
 sources:
   - "https://github.com/Ummati-com"

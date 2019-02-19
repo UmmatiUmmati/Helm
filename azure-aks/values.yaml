@@ -1,0 +1,14 @@
+environment: "Production"
+
+kured:
+  nameOverride: ""
+  fullnameOverride: ""
+  image:
+    pullPolicy: Always
+  resources:
+    limits:
+      cpu: 10m
+      memory: 50Mi
+    requests:
+      cpu: 10m
+      memory: 50Mi

@@ -7,6 +7,10 @@ var artefactsDirectory =
     HasArgument("ArtefactsDirectory") ? Directory(Argument<string>("ArtefactsDirectory")) :
     EnvironmentVariable("ArtefactsDirectory") != null ? Directory(EnvironmentVariable("ArtefactsDirectory")) :
     Directory("./Artefacts");
+var helmChartNames =
+    (HasArgument("HelmChartName") ? Argument<string>("HelmChartName") :
+    EnvironmentVariable("HelmChartName") != null ? EnvironmentVariable("HelmChartName") :
+    "azure-aks,ummati").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 var helmReleaseName =
     HasArgument("HelmReleaseName") ? Argument<string>("HelmReleaseName") :
     EnvironmentVariable("HelmReleaseName") != null ? EnvironmentVariable("HelmReleaseName") :
@@ -43,53 +47,38 @@ Task("Clean")
 Task("Init")
     .Does(() =>
     {
-        var exitCode = StartProcess(
+        StartProcess(
             "helm",
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
-                    .Append("init")
-                    .Append("--client-only")
-            });
-        if (exitCode != 0 && !TFBuild.IsRunningOnVSTS)
-        {
-            throw new Exception($"helm init failed with exit code {exitCode}.");
-        }
+            new ProcessArgumentBuilder()
+                .Append("init")
+                .Append("--client-only"));
     });
 
 Task("Update")
     .Does(() =>
     {
-        var exitCode = StartProcess(
-            "helm",
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
+        foreach (var helmChartName in helmChartNames)
+        {
+            StartProcess(
+                "helm",
+                new ProcessArgumentBuilder()
                     .Append("dependency")
                     .Append("update")
-                    .Append("ummati")
-            });
-        if (exitCode != 0 && !TFBuild.IsRunningOnVSTS)
-        {
-            throw new Exception($"helm dependency update failed with exit code {exitCode}.");
+                    .Append(helmChartName));
         }
     });
 
 Task("Lint")
     .Does(() =>
     {
-        var exitCode = StartProcess(
-            "helm",
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
-                    .Append("lint")
-                    .Append("ummati")
-                    .Append("--strict")
-            });
-        if (exitCode != 0)
+        foreach (var helmChartName in helmChartNames)
         {
-            throw new Exception($"helm lint failed with exit code {exitCode}.");
+            StartProcess(
+                "helm",
+                new ProcessArgumentBuilder()
+                    .Append("lint")
+                    .Append(helmChartName)
+                    .Append("--strict"));
         }
     });
 
@@ -109,19 +98,15 @@ Task("Package")
     .IsDependentOn("Version")
     .Does(() =>
     {
-        var exitCode = StartProcess(
-            "helm",
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
-                    .Append("package")
-                    .Append("ummati")
-                    .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
-                    .AppendSwitch("--version", packageVersion)
-            });
-        if (exitCode != 0)
+        foreach (var helmChartName in helmChartNames)
         {
-            throw new Exception($"helm package failed with exit code {exitCode}.");
+            StartProcess(
+                "helm",
+                new ProcessArgumentBuilder()
+                    .Append("package")
+                    .Append(helmChartName)
+                    .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
+                    .AppendSwitch("--version", packageVersion));
         }
     });
 
@@ -131,21 +116,16 @@ Task("Template")
     .IsDependentOn("Lint")
     .Does(() =>
     {
-        // helm template --output-dir ./***-final ./***
-        var exitCode = StartProcess(
-            "helm",
-            new ProcessSettings()
-            {
-                Arguments = new ProcessArgumentBuilder()
+        foreach (var helmChartName in helmChartNames)
+        {
+            StartProcess(
+                "helm",
+                new ProcessArgumentBuilder()
                     .Append("template")
                     .AppendSwitch("--name", helmReleaseName)
                     .AppendSwitch("--namespace", helmNamespace)
                     .AppendSwitch("--output-dir", MakeAbsolute(artefactsDirectory).ToString())
-                    .Append("./ummati")
-            });
-        if (exitCode != 0)
-        {
-            throw new Exception($"helm template failed with exit code {exitCode}.");
+                    .Append($"./{helmChartName}"));
         }
     });
 
@@ -154,21 +134,14 @@ Task("Push")
     {
         foreach(var package in GetFiles($"{artefactsDirectory}/**/*.tgz"))
         {
-             var exitCode = StartProcess(
-                 Context.Tools.Resolve(IsRunningOnWindows() ? "az.cmd" : "az"),
-                 new ProcessSettings()
-                 {
-                     Arguments = new ProcessArgumentBuilder()
-                        .Append("acr helm push")
-                        .AppendSwitch("--name", azureContainerRegistryName)
-                        .AppendSwitch("--username", azureContainerRegistryUsername)
-                        .AppendSwitch("--password", azureContainerRegistryPassword)
-                        .AppendQuoted(package.ToString())
-                 });
-            if (exitCode != 0)
-            {
-                throw new Exception($"acr helm push failed with exit code {exitCode}.");
-            }
+            StartProcess(
+                Context.Tools.Resolve(IsRunningOnWindows() ? "az.cmd" : "az").ToString(),
+                new ProcessArgumentBuilder()
+                    .Append("acr helm push")
+                    .AppendSwitch("--name", azureContainerRegistryName)
+                    .AppendSwitch("--username", azureContainerRegistryUsername)
+                    .AppendSwitch("--password", azureContainerRegistryPassword)
+                    .AppendQuoted(package.ToString()));
         }
     });
 
@@ -176,3 +149,19 @@ Task("Default")
     .IsDependentOn("Package");
 
 RunTarget(target);
+
+public void StartProcess(string processName, ProcessArgumentBuilder builder)
+{
+    var command = $"{processName} {builder.RenderSafe()}";
+    Information($"Executing: {command}");
+    var exitCode = StartProcess(
+        processName,
+        new ProcessSettings()
+        {
+            Arguments = builder
+        });
+    if (exitCode != 0 && !TFBuild.IsRunningOnVSTS)
+    {
+        throw new Exception($"'{command}' failed with exit code {exitCode}.");
+    }
+}

@@ -61,19 +61,6 @@ home:
     readOnlyRootFilesystem: false   # Force containers to run with a read only root file system.
     runAsUser: null
 
-kured:
-  nameOverride: ""
-  fullnameOverride: ""
-  image:
-    pullPolicy: Always
-  resources:
-    limits:
-      cpu: 10m
-      memory: 50Mi
-    requests:
-      cpu: 10m
-      memory: 50Mi
-
 # redis-ha:
 #   nameOverride: "redis"
 #   replicas: 2
