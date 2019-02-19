@@ -1,40 +1,13 @@
 var target = Argument("Target", "Default");
-var packageVersion =
-    HasArgument("PackageVersion") ? Argument<string>("PackageVersion") :
-    EnvironmentVariable("PackageVersion") != null ? EnvironmentVariable("PackageVersion") :
-    "1.0.0";
-var artefactsDirectory =
-    HasArgument("ArtefactsDirectory") ? Directory(Argument<string>("ArtefactsDirectory")) :
-    EnvironmentVariable("ArtefactsDirectory") != null ? Directory(EnvironmentVariable("ArtefactsDirectory")) :
-    Directory("./Artefacts");
-var helmChartNames =
-    (HasArgument("HelmChartName") ? Argument<string>("HelmChartName") :
-    EnvironmentVariable("HelmChartName") != null ? EnvironmentVariable("HelmChartName") :
-    "azure-aks,ummati").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-var helmReleaseName =
-    HasArgument("HelmReleaseName") ? Argument<string>("HelmReleaseName") :
-    EnvironmentVariable("HelmReleaseName") != null ? EnvironmentVariable("HelmReleaseName") :
-    "RELEASE-NAME";
-var helmNamespace =
-    HasArgument("HelmNamespace") ? Argument<string>("HelmNamespace") :
-    EnvironmentVariable("HelmNamespace") != null ? EnvironmentVariable("HelmNamespace") :
-    "NAMESPACE";
-var azureSubscriptionId =
-    HasArgument("AzureSubscriptionId") ? Argument<string>("AzureSubscriptionId") :
-    EnvironmentVariable("AzureSubscriptionId") != null ? EnvironmentVariable("AzureSubscriptionId") :
-    null;
-var azureContainerRegistryName =
-    HasArgument("AzureContainerRegistryName") ? Argument<string>("AzureContainerRegistryName") :
-    EnvironmentVariable("AzureContainerRegistryName") != null ? EnvironmentVariable("AzureContainerRegistryName") :
-    null;
-var azureContainerRegistryUsername =
-    HasArgument("AzureContainerRegistryUsername") ? Argument<string>("AzureContainerRegistryUsername") :
-    EnvironmentVariable("AzureContainerRegistryUsername") != null ? EnvironmentVariable("AzureContainerRegistryUsername") :
-    null;
-var azureContainerRegistryPassword =
-    HasArgument("AzureContainerRegistryPassword") ? Argument<string>("AzureContainerRegistryPassword") :
-    EnvironmentVariable("AzureContainerRegistryPassword") != null ? EnvironmentVariable("AzureContainerRegistryPassword") :
-    null;
+var packageVersion = GetArgumentValue("PackageVersion", "1.0.0");
+var artefactsDirectory = Directory(GetArgumentValue("ArtefactsDirectory", "./Artefacts"));
+var helmChartNames = GetArgumentValue("HelmChartName", "azure-aks,ummati").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+var helmReleaseName = GetArgumentValue("HelmReleaseName", "RELEASE-NAME");
+var helmNamespace = GetArgumentValue("HelmNamespace", "NAMESPACE");
+var azureSubscriptionId = GetArgumentValue("AzureSubscriptionId", null);
+var azureContainerRegistryName = GetArgumentValue("AzureContainerRegistryName", null);
+var azureContainerRegistryUsername = GetArgumentValue("AzureContainerRegistryUsername", null);
+var azureContainerRegistryPassword = GetArgumentValue("AzureContainerRegistryPassword", null);
 
 Task("Clean")
     .Does(() =>
@@ -149,6 +122,11 @@ Task("Default")
     .IsDependentOn("Package");
 
 RunTarget(target);
+
+public string GetArgumentValue(string name, string defaultValue) =>
+    HasArgument(name) ? Argument<string>(name) :
+    EnvironmentVariable(name) != null ? EnvironmentVariable(name) :
+    defaultValue;
 
 public void StartProcess(string processName, ProcessArgumentBuilder builder)
 {
