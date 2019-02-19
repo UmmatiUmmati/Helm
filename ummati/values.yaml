@@ -60,6 +60,8 @@ home:
     allowPrivilegeEscalation: false # Whether a process can gain more privileges than its parent process.
     readOnlyRootFilesystem: false   # Force containers to run with a read only root file system.
     runAsUser: null
+  env:
+    FOO: "bar"
 
 # redis-ha:
 #   nameOverride: "redis"

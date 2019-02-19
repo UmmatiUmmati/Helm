@@ -10,3 +10,4 @@ metadata:
     {{- include "ummati.defaultAnnotations" . | nindent 4 }}
 data:
   ENVIRONMENT: {{ .Values.environment }}
+{{ toYaml .Values.home.env | indent 2 -}}
