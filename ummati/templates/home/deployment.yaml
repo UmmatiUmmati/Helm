@@ -31,6 +31,9 @@ spec:
           image: "{{ .Values.home.image.repository }}:{{ .Values.home.image.tag }}"
           {{- end }}
           imagePullPolicy: {{ .Values.home.image.pullPolicy | quote }}
+          envFrom:
+            - configMapRef:
+                name: "{{ include "ummati.fullname" . }}-home"
           ports:
             - name: "http"
               containerPort: 80
