@@ -1,0 +1,26 @@
+# Documentation: https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/memory-constraint-namespace/
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: "{{ include "ummati.fullname" . }}-default-limit-range"
+  labels:
+    app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-default-limit-range"
+    app.kubernetes.io/component: "metadata"
+    {{- include "ummati.defaultLabels" . | nindent 4 }}
+  annotations:
+    {{- include "ummati.defaultAnnotations" . | nindent 4 }}
+spec:
+  limits:
+  - default:
+      cpu: {{ .Values.limitRange.defaultLimit.cpu }}
+      memory: {{ .Values.limitRange.defaultLimit.memory }}
+    defaultRequest:
+      cpu: {{ .Values.limitRange.defaultRequest.cpu }}
+      memory: {{ .Values.limitRange.defaultRequest.memory }}
+    max:
+      cpu: {{ .Values.limitRange.max.cpu }}
+      memory: {{ .Values.limitRange.max.memory }}
+    min:
+      cpu: {{ .Values.limitRange.min.cpu }}
+      memory: {{ .Values.limitRange.min.memory }}
+    type: Container

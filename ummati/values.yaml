@@ -18,6 +18,20 @@ resourceQuota:
       loadbalancers: 5
       nodeports: 5
 
+limitRange:
+  defaultLimit:     # Default cpu and memory limits if limits are not specified on a resource.
+    cpu: "100m"
+    memory: "128Mi"
+  defaultRequest:   # Default cpu and memory requests if limits are not specified on a resource.
+    cpu: "100m"
+    memory: "128Mi"
+  max:              # Max cpu and memory usage.
+    cpu: 2
+    memory: "2Gi"
+  min:              # Min cpu and memory usage.
+    cpu: "10m"
+    memory: "10Mi"
+
 environment: "Production"
 
 home:
