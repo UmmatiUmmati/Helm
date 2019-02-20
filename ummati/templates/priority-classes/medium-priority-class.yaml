@@ -4,7 +4,8 @@ kind: PriorityClass
 metadata:
   name: "medium"
   labels:
-    app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-common"
+    app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-medium-priority-class"
+    app.kubernetes.io/component: "metadata"
     {{- include "ummati.defaultLabels" . | nindent 4 }}
   annotations:
     {{- include "ummati.defaultAnnotations" . | nindent 4 }}

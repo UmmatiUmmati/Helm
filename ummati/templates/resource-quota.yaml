@@ -2,9 +2,10 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: "{{ include "ummati.fullname" . }}-default"
+  name: "{{ include "ummati.fullname" . }}-default-resource-quota"
   labels:
-    app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-common"
+    app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-default-resource-quota"
+    app.kubernetes.io/component: "metadata"
     {{- include "ummati.defaultLabels" . | nindent 4 }}
   annotations:
     {{- include "ummati.defaultAnnotations" . | nindent 4 }}
