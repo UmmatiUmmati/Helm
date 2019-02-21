@@ -50,7 +50,7 @@ home:
     maxSurge: "10%"         # Maximum number of pods to create during an update (Default = 25%).
     maxUnavailable: "10%"   # Maximum number of pods to take down during a rolling update (Default = 25%).
   podDisruptionBudget:
-    maxUnavailable: "0%"    # Maximum number of pods to take down during a node update
+    maxUnavailable: "10%"   # Maximum number of pods to take down during a node update
   livenessProbe:            # If the liveness probe fails, the container is terminated and restarted.
     initialDelaySeconds: 0  # Number of seconds after the container has started before liveness probes are initiated.
     periodSeconds: 10       # How often to perform the probe. (Default = 10).
