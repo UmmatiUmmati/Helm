@@ -62,6 +62,7 @@ spec:
             timeoutSeconds: {{ .Values.home.readinessProbe.timeoutSeconds }}
             successThreshold: {{ .Values.home.livenessProbe.successThreshold }}
             failureThreshold: {{ .Values.home.readinessProbe.failureThreshold }}
+          terminationGracePeriodSeconds: {{ .Values.home.terminationGracePeriodSeconds }}
           resources:
 {{ toYaml .Values.home.resources | indent 12 }}
           securityContext:

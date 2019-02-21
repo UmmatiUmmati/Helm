@@ -63,6 +63,7 @@ home:
     timeoutSeconds: 1       # Number of seconds after which the probe times out (Default = 1).
     successThreshold: 1     # Minimum consecutive successes for the probe to be considered successful after having failed (Default = 1).
     failureThreshold: 3     # When a Pod starts and the probe fails, Kubernetes will try failureThreshold times before marking the Pod as Unready (Default = 3).
+  terminationGracePeriodSeconds: 30 # Duration the pod needs to terminate gracefully (Default = 30).
   resources:
     limits:
       cpu: "100m"
