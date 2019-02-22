@@ -11,6 +11,7 @@ metadata:
     {{- include "ummati.defaultAnnotations" . | nindent 4 }}
 spec:
   type: {{ .Values.home.service.type | quote }}
+  externalTrafficPolicy: {{ .Values.home.service.externalTrafficPolicy | quote }}
   ports:
     - name: http
       port: 80
