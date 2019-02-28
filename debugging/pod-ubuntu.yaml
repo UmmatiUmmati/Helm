@@ -1,4 +1,4 @@
-# kubectl create --filename ./debugging/ubuntu-pod.yaml --namespace=ummati-production
+# kubectl create --filename ./debugging/pod-ubuntu.yaml --namespace=ummati-production
 # kubectl exec --namespace ummati-production -it ubuntu /bin/bash
 # kubectl delete pod --namespace ummati-production ubuntu
 apiVersion: v1
