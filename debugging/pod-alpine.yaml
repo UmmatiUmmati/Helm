@@ -1,0 +1,23 @@
+# kubectl create --filename ./debugging/pod-alpine.yaml --namespace=ummati-production
+# kubectl exec --namespace ummati-production -it alpine /bin/bash
+# kubectl delete pod --namespace ummati-production alpine
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine
+spec:
+  containers:
+  - name: alpine
+    image: alpine:latest
+    command:
+      - sleep
+      - "3600"
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: "100m"
+        memory: "128Mi"
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+  restartPolicy: Always
