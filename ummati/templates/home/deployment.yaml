@@ -24,18 +24,18 @@ spec:
       labels:
         app.kubernetes.io/name: "{{ include "ummati.fullname" . }}-home"
     spec:
-      # affinity:
-      #   podAntiAffinity:
-      #     preferredDuringSchedulingIgnoredDuringExecution:
-      #     - weight: 100
-      #       podAffinityTerm:
-      #         labelSelector:
-      #           matchExpressions:
-      #           - key: "app.kubernetes.io/name"
-      #             operator: In
-      #             values:
-      #             - "{{ include "ummati.fullname" . }}-home"
-      #         topologyKey: "kubernetes.io/hostname"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: "app.kubernetes.io/name"
+                  operator: In
+                  values:
+                  - "{{ include "ummati.fullname" . }}-home"
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: "{{ include "ummati.fullname" . }}-home"
           {{- if hasKey .Values.home.image "registry" }}
