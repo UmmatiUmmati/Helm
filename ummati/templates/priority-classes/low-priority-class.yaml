@@ -1,4 +1,5 @@
 # Documentation: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+# TODO: change apiVersion to scheduling.k8s.io/v1 when upgraded to 1.14
 apiVersion: scheduling.k8s.io/v1beta1
 kind: PriorityClass
 metadata:
