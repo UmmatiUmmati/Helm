@@ -10,21 +10,23 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
-- bash: ./build.sh --target Init
+- bash: dotnet tool install --global Cake.Tool
+  displayName: 'install cake global tool'
+- bash: dotnet cake --target Init
   displayName: 'helm init'
-- bash: ./build.sh --target Update
+- bash: dotnet cake --target Update
   displayName: 'helm update'
-- bash: ./build.sh --target Lint
+- bash: dotnet cake --target Lint
   displayName: 'helm lint'
-- bash: ./build.sh --target Package --PackageVersion=$(PackageVersion)
+- bash: dotnet cake --target Package --PackageVersion=$(PackageVersion)
   displayName: 'helm package'
 - task: AzureCLI@1
   displayName: 'az acr helm push'
   inputs:
     azureSubscription: 'Azure'
-    scriptLocation: scriptPath
-    scriptPath: ./build.sh
-    arguments: --target Push --verbosity Diagnostic --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
+    scriptLocation: inlineScript
+    inlineScript: dotnet
+    arguments: cake --target Push --verbosity Diagnostic --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'HelmCharts'
