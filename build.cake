@@ -138,7 +138,7 @@ public void StartProcess(string processName, ProcessArgumentBuilder builder)
         {
             Arguments = builder
         });
-    if (exitCode != 0 && !TFBuild.IsRunningOnVSTS)
+    if (exitCode != 0 && !TFBuild.IsRunningOnAzurePipelinesHosted)
     {
         throw new Exception($"'{command}' failed with exit code {exitCode}.");
     }

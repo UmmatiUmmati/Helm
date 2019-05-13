@@ -12,13 +12,13 @@ pool:
 steps:
 - bash: dotnet tool install --global Cake.Tool
   displayName: 'install cake global tool'
-- bash: dotnet cake --target Init
+- bash: dotnet cake --target=Init
   displayName: 'helm init'
-- bash: dotnet cake --target Update
+- bash: dotnet cake --target=Update
   displayName: 'helm update'
-- bash: dotnet cake --target Lint
+- bash: dotnet cake --target=Lint
   displayName: 'helm lint'
-- bash: dotnet cake --target Package --PackageVersion=$(PackageVersion)
+- bash: dotnet cake --target=Package --PackageVersion=$(PackageVersion)
   displayName: 'helm package'
 - task: AzureCLI@1
   displayName: 'az acr helm push'
@@ -26,7 +26,7 @@ steps:
     azureSubscription: 'Azure'
     scriptLocation: inlineScript
     inlineScript: dotnet
-    arguments: cake --target Push --verbosity Diagnostic --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
+    arguments: cake --target=Push --verbosity=Diagnostic --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'HelmCharts'
