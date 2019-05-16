@@ -25,8 +25,7 @@ steps:
   inputs:
     azureSubscription: 'Azure'
     scriptLocation: inlineScript
-    inlineScript: dotnet
-    arguments: cake --target=Push --verbosity=Diagnostic --AzureContainerRegistryName='$(AzureContainerRegistryName)' --AzureContainerRegistryUsername='$(AzureContainerRegistryUsername)' --AzureContainerRegistryPassword='$(AzureContainerRegistryPassword1)'
+    inlineScript: 'dotnet cake --target=Push --verbosity=Diagnostic --AzureContainerRegistryName="$(AzureContainerRegistryName)" --AzureContainerRegistryUsername="$(AzureContainerRegistryUsername)" --AzureContainerRegistryPassword="$(AzureContainerRegistryPassword1)"'
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'HelmCharts'
