@@ -1,3 +1,5 @@
+# Azure Pipelines documentation https://aka.ms/yaml
+
 name: 1.0.$(BuildId)
 
 variables:
@@ -7,7 +9,7 @@ variables:
     PackageVersion: $(Build.BuildNumber)-$(Build.SourceBranchName)
 
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: 'ubuntu-latest'
 
 steps:
 - bash: dotnet tool install --global Cake.Tool
