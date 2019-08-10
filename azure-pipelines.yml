@@ -16,16 +16,21 @@ steps:
   displayName: Install Helm
   inputs:
     helmVersionToInstall: latest
-- bash: dotnet tool install --global Cake.Tool
+- script: 'dotnet tool install --global Cake.Tool'
   displayName: 'install cake global tool'
-- bash: dotnet cake --target=Init
+  failOnStderr: true
+- script: 'dotnet cake --target=Init'
   displayName: 'helm init'
-- bash: dotnet cake --target=Update
+  failOnStderr: true
+- script: 'dotnet cake --target=Update'
   displayName: 'helm update'
-- bash: dotnet cake --target=Lint
+  failOnStderr: true
+- script: 'dotnet cake --target=Lint'
   displayName: 'helm lint'
-- bash: dotnet cake --target=Package --PackageVersion=$(PackageVersion)
+  failOnStderr: true
+- script: 'dotnet cake --target=Package --PackageVersion=$(PackageVersion)'
   displayName: 'helm package'
+  failOnStderr: true
 - task: AzureCLI@1
   displayName: 'az acr helm push'
   inputs:
@@ -35,4 +40,4 @@ steps:
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'HelmCharts'
-    targetPath: './Artefacts'
+    targetPath: './Artifacts'
