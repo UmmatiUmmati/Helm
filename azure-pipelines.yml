@@ -12,6 +12,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- checkout: self
+  lfs: true
 - task: HelmInstaller@1
   displayName: Install Helm
   inputs:
