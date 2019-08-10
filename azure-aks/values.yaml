@@ -12,3 +12,5 @@ kured:
     requests:
       cpu: 10m
       memory: 50Mi
+  serviceAccount:
+    name: "kured"
