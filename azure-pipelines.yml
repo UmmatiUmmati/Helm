@@ -12,6 +12,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: HelmInstaller@1
+  displayName: Install Helm
+  inputs:
+    helmVersionToInstall: latest
 - bash: dotnet tool install --global Cake.Tool
   displayName: 'install cake global tool'
 - bash: dotnet cake --target=Init
