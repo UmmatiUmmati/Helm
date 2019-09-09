@@ -1,6 +1,6 @@
 var target = Argument("Target", "Default");
 var packageVersion = GetArgumentValue("PackageVersion", "1.0.0");
-var artefactsDirectory = Directory(GetArgumentValue("ArtefactsDirectory", "./Artefacts"));
+var artifactsDirectory = Directory(GetArgumentValue("ArtifactsDirectory", "./Artifacts"));
 var helmChartNames = GetArgumentValue("HelmChartName", "azure-aks,ummati").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 var helmReleaseName = GetArgumentValue("HelmReleaseName", "RELEASE-NAME");
 var helmNamespace = GetArgumentValue("HelmNamespace", "NAMESPACE");
@@ -12,9 +12,9 @@ var azureContainerRegistryPassword = GetArgumentValue("AzureContainerRegistryPas
 Task("Clean")
     .Does(() =>
     {
-        CleanDirectory(artefactsDirectory);
-        CreateDirectory(artefactsDirectory);
-        Information($"Cleaned {artefactsDirectory}");
+        CleanDirectory(artifactsDirectory);
+        CreateDirectory(artifactsDirectory);
+        Information($"Cleaned {artifactsDirectory}");
     });
 
 Task("Init")
@@ -78,7 +78,7 @@ Task("Package")
                 new ProcessArgumentBuilder()
                     .Append("package")
                     .Append(helmChartName)
-                    .AppendSwitch("--destination", MakeAbsolute(artefactsDirectory).ToString())
+                    .AppendSwitch("--destination", MakeAbsolute(artifactsDirectory).ToString())
                     .AppendSwitch("--version", packageVersion));
         }
     });
@@ -97,7 +97,7 @@ Task("Template")
                     .Append("template")
                     .AppendSwitch("--name", helmReleaseName)
                     .AppendSwitch("--namespace", helmNamespace)
-                    .AppendSwitch("--output-dir", MakeAbsolute(artefactsDirectory).ToString())
+                    .AppendSwitch("--output-dir", MakeAbsolute(artifactsDirectory).ToString())
                     .Append($"./{helmChartName}"));
         }
     });
@@ -105,7 +105,7 @@ Task("Template")
 Task("Push")
     .Does(() =>
     {
-        foreach(var package in GetFiles($"{artefactsDirectory}/**/*.tgz"))
+        foreach(var package in GetFiles($"{artifactsDirectory}/**/*.tgz"))
         {
             StartProcess(
                 Context.Tools.Resolve(IsRunningOnWindows() ? "az.cmd" : "az").ToString(),

@@ -12,23 +12,38 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- bash: dotnet tool install --global Cake.Tool
-  displayName: 'install cake global tool'
-- bash: dotnet cake --target=Init
-  displayName: 'helm init'
-- bash: dotnet cake --target=Update
-  displayName: 'helm update'
-- bash: dotnet cake --target=Lint
-  displayName: 'helm lint'
-- bash: dotnet cake --target=Package --PackageVersion=$(PackageVersion)
-  displayName: 'helm package'
+- checkout: self
+  lfs: true
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '2.2.301'
+- task: HelmInstaller@1
+  displayName: 'Install Helm'
+  inputs:
+    helmVersionToInstall: latest
+- script: 'dotnet tool install --global Cake.Tool'
+  displayName: 'Install cake global tool'
+  failOnStderr: true
+- script: 'dotnet cake --target=Init'
+  displayName: 'Helm Init'
+  failOnStderr: true
+- script: 'dotnet cake --target=Update'
+  displayName: 'Helm Update'
+  failOnStderr: true
+- script: 'dotnet cake --target=Lint'
+  displayName: 'Helm Lint'
+  failOnStderr: true
+- script: 'dotnet cake --target=Package --PackageVersion=$(PackageVersion)'
+  displayName: 'Helm Package'
+  failOnStderr: true
 - task: AzureCLI@1
-  displayName: 'az acr helm push'
+  displayName: 'Azure Container Registry Push'
   inputs:
     azureSubscription: 'Azure'
     scriptLocation: inlineScript
     inlineScript: 'dotnet cake --target=Push --verbosity=Diagnostic --AzureContainerRegistryName="$(AzureContainerRegistryName)" --AzureContainerRegistryUsername="$(AzureContainerRegistryUsername)" --AzureContainerRegistryPassword="$(AzureContainerRegistryPassword1)"'
-- task: PublishPipelineArtifact@0
-  inputs:
-    artifactName: 'HelmCharts'
-    targetPath: './Artefacts'
+- publish: './Artifacts'
+  artifact: 'HelmCharts'
+  displayName: 'Publish Artifacts'

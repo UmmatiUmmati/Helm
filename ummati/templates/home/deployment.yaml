@@ -79,6 +79,8 @@ spec:
           securityContext:
             allowPrivilegeEscalation: {{ .Values.home.securityContext.allowPrivilegeEscalation }}
             readOnlyRootFilesystem: {{ .Values.home.securityContext.readOnlyRootFilesystem }}
+            {{- if hasKey .Values.home.securityContext "runAsUser" }}
             runAsUser: {{ .Values.home.securityContext.runAsUser }}
+            {{- end }}
       priorityClassName: {{ .Values.home.priorityClassName | quote }}
       terminationGracePeriodSeconds: {{ .Values.home.terminationGracePeriodSeconds }}
